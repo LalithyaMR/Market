@@ -172,7 +172,7 @@
                         <div><label for="listing-unit" class="mb-1.5 block text-sm font-semibold">Quantity unit</label><select id="listing-unit" name="unit" required class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100"><option value="kg">Kilograms (kg)</option><option value="g">Grams (g)</option><option value="bunch">Bunches</option><option value="box">Boxes</option><option value="piece">Pieces</option></select></div>
                         <div><label for="listing-shelf-life" class="mb-1.5 block text-sm font-semibold">Shelf life remaining (days)</label><input id="listing-shelf-life" name="shelfLifeDays" type="number" min="1" max="365" step="1" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="e.g. 4" /><p class="mt-1 text-xs text-slate-500">Enter the number of days the produce is expected to stay fresh.</p></div>
                         <div><label for="listing-description" class="mb-1.5 block text-sm font-semibold">Details <span class="font-normal text-slate-400">(optional)</span></label><textarea id="listing-description" name="description" maxlength="500" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="Harvest date, variety, or pickup details"></textarea></div>
-                        <div><label for="listing-image" class="mb-1.5 block text-sm font-semibold">Real item photo</label><input id="listing-image" name="image" type="file" accept="image/jpeg,image/png,image/webp" required class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-green-50 file:px-3 file:py-2 file:font-semibold file:text-forest" /><p class="mt-1 text-xs text-slate-500">JPG, PNG, or WebP; up to 4 MB.</p><img id="image-preview" class="mt-3 hidden max-h-48 w-full rounded-xl object-cover" alt="Preview of the selected produce photo" /></div>
+                        <div><label for="listing-image" class="mb-1.5 block text-sm font-semibold">Real item photo</label><input id="listing-image" name="image" type="file" accept="image/jpeg,image/png,image/webp" required class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-green-50 file:px-3 file:py-2 file:font-semibold file:text-forest" /><p class="mt-1 text-xs text-slate-500">JPG, PNG, or WebP; up to 4 MB. Images are optimized for this browser.</p><img id="image-preview" class="mt-3 hidden max-h-48 w-full rounded-xl object-cover" alt="Preview of the selected produce photo" /></div>
                         <button id="listing-submit" type="submit" class="w-full rounded-xl bg-forest px-4 py-3 font-bold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-60">Add listing</button>
                         <p id="listing-message" class="hidden rounded-lg p-3 text-center text-sm" role="status"></p>
                     </form>
@@ -212,7 +212,11 @@
                         <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm"><div class="flex items-center gap-3"><span class="grid h-10 w-10 place-items-center rounded-xl bg-white/15 text-amber-200"><i class="fa-solid fa-tag" aria-hidden="true"></i></span><div><p class="text-xs font-medium text-green-100">Bulk savings</p><p class="mt-0.5 text-lg font-extrabold">Up to 10% off</p></div></div></div>
                     </div>
                 </div>
-                <div class="mt-5 flex items-start gap-3 rounded-2xl border border-green-200 bg-green-50 p-4 text-sm text-green-900 shadow-sm">
+                <div class="mt-5 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950 shadow-sm">
+                    <i class="fa-solid fa-circle-info mt-0.5 text-amber-700" aria-hidden="true"></i>
+                    <p><strong>Browser demo:</strong> Your account, listings, and purchases are saved only in this browser. Other devices and visitors do not share this data.</p>
+                </div>
+                <div class="mt-4 flex items-start gap-3 rounded-2xl border border-green-200 bg-green-50 p-4 text-sm text-green-900 shadow-sm">
                     <i class="fa-solid fa-circle-info mt-0.5 text-forest" aria-hidden="true"></i>
                     <p><strong>Good to know:</strong> Delivery usually takes 2–4 days after ordering; timing depends on the farm, so confirm with the farmer. For produce with less than 5 days of shelf life, confirm it can arrive within 2 days. Save 5% on 10+ units or 10% on 25+ units.</p>
                 </div>
@@ -252,6 +256,7 @@
             <button id="modal-close" class="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-ink" aria-label="Close dialog"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
             <div class="mb-5 flex items-center gap-3"><span id="modal-icon" class="grid h-12 w-12 place-items-center rounded-2xl bg-green-50 text-xl text-forest"><i class="fa-solid fa-basket-shopping" aria-hidden="true"></i></span><div><p id="modal-kicker" class="text-xs font-bold uppercase tracking-wider text-forest">Customer portal</p><h2 id="modal-title" class="brand-font text-2xl font-extrabold">Welcome back</h2></div></div>
             <div class="grid grid-cols-2 rounded-xl bg-slate-100 p-1" role="tablist" aria-label="Account access"><button id="login-tab" role="tab" aria-selected="true" aria-controls="portal-form" class="rounded-lg bg-white py-2.5 text-sm font-bold text-ink shadow-sm">Log in</button><button id="register-tab" role="tab" aria-selected="false" aria-controls="portal-form" class="rounded-lg py-2.5 text-sm font-bold text-slate-500">Create account</button></div>
+            <p class="mt-4 rounded-lg bg-amber-50 px-3 py-2 text-xs leading-5 text-amber-900">Demo mode: portal data is stored in this browser and is not shared with other devices.</p>
             <form id="portal-form" class="mt-5 space-y-4">
                 <div id="name-field" class="hidden"><label for="full-name" class="mb-1.5 block text-sm font-semibold">Your name</label><input id="full-name" name="name" autocomplete="name" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="Name" /></div>
                 <div><label for="email" class="mb-1.5 block text-sm font-semibold">Email address</label><input id="email" name="email" type="email" autocomplete="email" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="you@example.com" /></div>
@@ -315,6 +320,8 @@
             let portal = 'customer';
             let previousFocus = null;
             let currentUser = null;
+            let localDatabasePromise = null;
+            let stateUpdateQueue = Promise.resolve();
             const deliveryEstimate = 'Estimated delivery: usually 2–4 days after ordering; confirm timing with the farmer.';
 
             function setMode(mode) {
@@ -347,20 +354,274 @@
                 document.body.classList.remove('overflow-hidden');
                 if (previousFocus) previousFocus.focus();
             }
-            async function requestJson(url, options = {}) {
-                if (window.location.protocol === 'file:') {
-                    throw new Error('Open the app at http://localhost:3000 after starting the Node server. Do not open front/index.html directly.');
+            function openLocalDatabase() {
+                if (!window.indexedDB) {
+                    return Promise.reject(new Error('This browser does not support local account storage. Try a current version of Chrome, Edge, Firefox, or Safari.'));
                 }
-                const response = await fetch(url, options);
-                const responseText = await response.text();
-                let result;
-                try {
-                    result = JSON.parse(responseText);
-                } catch {
-                    throw new Error(`The server returned a non-JSON response (${response.status}). Check that Vercel deployed the Express API and routes /api requests to it.`);
+                if (!localDatabasePromise) {
+                    localDatabasePromise = new Promise((resolve, reject) => {
+                        const request = window.indexedDB.open('kisan-direct-browser-demo', 1);
+                        request.onupgradeneeded = () => request.result.createObjectStore('state');
+                        request.onsuccess = () => resolve(request.result);
+                        request.onerror = () => reject(new Error('Unable to open browser storage. Check that site storage is enabled.'));
+                    });
                 }
-                if (!response.ok) throw new Error(result.message || 'The request could not be completed.');
-                return result;
+                return localDatabasePromise;
+            }
+            function emptyState() {
+                return { users: [], listings: [], orders: [], nextListingId: 1, nextOrderId: 1 };
+            }
+            async function readLocalState() {
+                const database = await openLocalDatabase();
+                return new Promise((resolve, reject) => {
+                    const transaction = database.transaction('state', 'readonly');
+                    const request = transaction.objectStore('state').get('app');
+                    request.onsuccess = () => resolve(request.result || emptyState());
+                    request.onerror = () => reject(new Error('Unable to read data saved in this browser.'));
+                    transaction.onerror = () => reject(new Error('Unable to read data saved in this browser.'));
+                });
+            }
+            async function updateLocalState(update) {
+                const operation = stateUpdateQueue.then(async () => {
+                    const database = await openLocalDatabase();
+                    return new Promise((resolve, reject) => {
+                        const transaction = database.transaction('state', 'readwrite');
+                        const store = transaction.objectStore('state');
+                        let result;
+                        const request = store.get('app');
+                        request.onsuccess = () => {
+                            try {
+                                const state = request.result || emptyState();
+                                result = update(state);
+                                store.put(state, 'app');
+                            } catch (error) {
+                                transaction.abort();
+                                reject(error);
+                            }
+                        };
+                        request.onerror = () => reject(new Error('Unable to update data saved in this browser.'));
+                        transaction.oncomplete = () => resolve(result);
+                        transaction.onerror = () => reject(new Error('Unable to save data in this browser. Check available storage space.'));
+                        transaction.onabort = () => reject(new Error('Unable to save data in this browser. Check available storage space.'));
+                    });
+                });
+                stateUpdateQueue = operation.catch(() => {});
+                return operation;
+            }
+            function currentLocalUser(state) {
+                const id = window.localStorage.getItem('kd_browser_user');
+                return state.users.find(user => user.id === id) || null;
+            }
+            function publicUser(user) {
+                return { id: user.id, name: user.name, email: user.email, role: user.role, location: user.location || null };
+            }
+            async function hashPassword(password, salt) {
+                const saltBytes = salt
+                    ? Uint8Array.from(salt.match(/.{2}/g), byte => parseInt(byte, 16))
+                    : window.crypto.getRandomValues(new Uint8Array(16));
+                const key = await window.crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+                const derived = await window.crypto.subtle.deriveBits(
+                    { name: 'PBKDF2', salt: saltBytes, iterations: 120000, hash: 'SHA-256' },
+                    key,
+                    256
+                );
+                return {
+                    salt: Array.from(saltBytes, byte => byte.toString(16).padStart(2, '0')).join(''),
+                    hash: Array.from(new Uint8Array(derived), byte => byte.toString(16).padStart(2, '0')).join('')
+                };
+            }
+            async function optimizeImage(file) {
+                if (!file || file.size > 4 * 1024 * 1024 || !['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) {
+                    throw new Error('Choose a JPG, PNG, or WebP photo up to 4 MB.');
+                }
+                const image = await createImageBitmap(file);
+                const scale = Math.min(1, 1000 / Math.max(image.width, image.height));
+                const canvas = document.createElement('canvas');
+                canvas.width = Math.max(1, Math.round(image.width * scale));
+                canvas.height = Math.max(1, Math.round(image.height * scale));
+                canvas.getContext('2d').drawImage(image, 0, 0, canvas.width, canvas.height);
+                image.close();
+                for (const quality of [0.78, 0.62, 0.48]) {
+                    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', quality));
+                    if (blob && blob.size <= 700 * 1024) {
+                        return await new Promise((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = () => resolve(reader.result);
+                            reader.onerror = () => reject(new Error('Unable to prepare the product photo.'));
+                            reader.readAsDataURL(blob);
+                        });
+                    }
+                }
+                throw new Error('This image is too large to save in browser storage. Choose a smaller photo.');
+            }
+            async function localRequest(url, options = {}) {
+                const path = new URL(url, window.location.href).pathname;
+                const method = options.method || 'GET';
+                const body = options.body;
+                const jsonBody = () => typeof body === 'string' ? JSON.parse(body) : {};
+                const state = await readLocalState();
+                const user = currentLocalUser(state);
+                const requireRole = role => {
+                    if (!user) throw new Error('Please log in to continue.');
+                    if (user.role !== role) throw new Error(`${role === 'farmer' ? 'Farmer' : 'Customer'} access is required.`);
+                    return user;
+                };
+
+                if (path === '/api/register' && method === 'POST') {
+                    const data = jsonBody();
+                    const email = String(data.email || '').trim().toLowerCase();
+                    const name = String(data.name || '').trim();
+                    if (!name || name.length > 100 || !email || !data.password || !['customer', 'farmer'].includes(data.role)) {
+                        throw new Error('Enter your name, email, password, and account type.');
+                    }
+                    if (state.users.some(account => account.email === email && account.role === data.role)) {
+                        throw new Error('Email is already registered for this account type.');
+                    }
+                    const credentials = await hashPassword(data.password);
+                    await updateLocalState(saved => {
+                        saved.users.push({
+                            id: window.crypto.randomUUID(),
+                            name, email, role: data.role, location: null,
+                            passwordSalt: credentials.salt, passwordHash: credentials.hash
+                        });
+                    });
+                    return { success: true, message: 'Account created. You can now log in.' };
+                }
+                if (path === '/api/login' && method === 'POST') {
+                    const data = jsonBody();
+                    const email = String(data.email || '').trim().toLowerCase();
+                    const account = state.users.find(item => item.email === email && item.role === data.role);
+                    if (!account || !data.password) throw new Error('Invalid email, password, or account type.');
+                    const credentials = await hashPassword(data.password, account.passwordSalt);
+                    if (credentials.hash !== account.passwordHash) throw new Error('Invalid email, password, or account type.');
+                    window.localStorage.setItem('kd_browser_user', String(account.id));
+                    return { success: true, message: `Welcome back, ${account.name}!`, user: publicUser(account) };
+                }
+                if (path === '/api/me' && method === 'GET') {
+                    if (!user) throw new Error('Please log in to continue.');
+                    return { success: true, user: publicUser(user) };
+                }
+                if (path === '/api/logout' && method === 'POST') {
+                    window.localStorage.removeItem('kd_browser_user');
+                    return { success: true };
+                }
+                if (path === '/api/location' && method === 'PUT') {
+                    if (!user) throw new Error('Please log in to continue.');
+                    const location = String(jsonBody().location || '').trim();
+                    if (!location || location.length > 255) throw new Error('Enter a delivery location up to 255 characters.');
+                    await updateLocalState(saved => {
+                        const account = saved.users.find(item => item.id === user.id);
+                        account.location = location;
+                    });
+                    return { success: true, location, message: 'Location saved.' };
+                }
+                if (path === '/api/farmer/listings' && method === 'GET') {
+                    requireRole('farmer');
+                    return {
+                        success: true,
+                        listings: state.listings.filter(item => item.farmerId === user.id)
+                            .sort((a, b) => Number(b.isActive) - Number(a.isActive) || b.createdAt.localeCompare(a.createdAt))
+                    };
+                }
+                if (path === '/api/farmer/listings' && method === 'POST') {
+                    requireRole('farmer');
+                    if (!(body instanceof FormData)) throw new Error('Complete the listing form and choose a photo.');
+                    const name = String(body.get('name') || '').trim();
+                    const description = String(body.get('description') || '').trim();
+                    const price = Number(body.get('price'));
+                    const quantity = Number(body.get('quantity'));
+                    const unit = String(body.get('unit') || '');
+                    const shelfLifeDays = Number(body.get('shelfLifeDays'));
+                    const imageFile = body.get('image');
+                    if (!name || name.length > 100 || description.length > 500 || !Number.isFinite(price) || price <= 0 ||
+                        !Number.isFinite(quantity) || quantity <= 0 || !Number.isInteger(shelfLifeDays) ||
+                        shelfLifeDays < 1 || shelfLifeDays > 365 || !['kg', 'g', 'bunch', 'box', 'piece'].includes(unit)) {
+                        throw new Error('Enter valid listing details and a shelf life from 1 to 365 days.');
+                    }
+                    const imagePath = await optimizeImage(imageFile);
+                    const item = await updateLocalState(saved => {
+                        const listing = {
+                            id: saved.nextListingId++, farmerId: user.id, farmerName: user.name,
+                            farmerLocation: user.location, name, description, price, quantity, unit,
+                            shelfLifeDays, imagePath, isActive: true, createdAt: new Date().toISOString()
+                        };
+                        saved.listings.push(listing);
+                        return listing;
+                    });
+                    return { success: true, listing: item };
+                }
+                const archiveMatch = path.match(/^\/api\/farmer\/listings\/(\d+)\/archive$/);
+                if (archiveMatch && method === 'POST') {
+                    requireRole('farmer');
+                    const listingId = Number(archiveMatch[1]);
+                    const archived = await updateLocalState(saved => {
+                        const item = saved.listings.find(listing =>
+                            listing.id === listingId && listing.farmerId === user.id && listing.isActive
+                        );
+                        if (!item) return false;
+                        item.isActive = false;
+                        return true;
+                    });
+                    if (!archived) throw new Error('Active listing not found.');
+                    return { success: true, message: 'Listing moved to previous items.' };
+                }
+                if (path === '/api/customer/listings' && method === 'GET') {
+                    requireRole('customer');
+                    return {
+                        success: true,
+                        listings: state.listings.filter(item => item.isActive && item.quantity > 0)
+                            .map(item => {
+                                const farmer = state.users.find(account => account.id === item.farmerId);
+                                return {
+                                    ...item,
+                                    farmerName: farmer ? farmer.name : item.farmerName,
+                                    farmerLocation: farmer ? farmer.location : item.farmerLocation
+                                };
+                            })
+                            .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+                    };
+                }
+                if (path === '/api/customer/orders' && method === 'GET') {
+                    requireRole('customer');
+                    return {
+                        success: true,
+                        orders: state.orders.filter(order => order.customerId === user.id)
+                            .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+                    };
+                }
+                if (path === '/api/customer/purchases' && method === 'POST') {
+                    const customer = requireRole('customer');
+                    if (!customer.location) throw new Error('Save your delivery location before placing an order.');
+                    const data = jsonBody();
+                    const listingId = Number(data.listingId);
+                    const quantity = Number(data.quantity);
+                    const listing = state.listings.find(item => item.id === listingId && item.isActive);
+                    if (!listing) throw new Error('This product is no longer available.');
+                    if (!Number.isFinite(quantity) || quantity <= 0 ||
+                        Math.abs(quantity * 100 - Math.round(quantity * 100)) > 1e-8) {
+                        throw new Error('Enter a valid quantity.');
+                    }
+                    if (quantity > listing.quantity) throw new Error(`Only ${listing.quantity} ${listing.unit} currently available.`);
+                    const discountPercent = quantity >= 25 ? 10 : quantity >= 10 ? 5 : 0;
+                    const total = Math.round(Number(listing.price) * quantity * (1 - discountPercent / 100) * 100) / 100;
+                    const order = await updateLocalState(saved => {
+                        const savedListing = saved.listings.find(item => item.id === listingId && item.isActive);
+                        if (!savedListing || quantity > savedListing.quantity) throw new Error('The available quantity has changed. Refresh and try again.');
+                        savedListing.quantity = Math.round((savedListing.quantity - quantity) * 100) / 100;
+                        const purchase = {
+                            id: saved.nextOrderId++, customerId: customer.id,
+                            total, deliveryLocation: customer.location,
+                            productName: savedListing.name, farmerName: savedListing.farmerName,
+                            quantity, unit: savedListing.unit, unitPrice: savedListing.price,
+                            discountPercent, lineTotal: total,
+                            createdAt: new Date().toISOString()
+                        };
+                        saved.orders.push(purchase);
+                        return purchase;
+                    });
+                    return { success: true, message: 'Purchase placed successfully.', order };
+                }
+                throw new Error('This action is not available in the browser demo.');
             }
             function setDashboardVisible(visible, role = 'farmer') {
                 dashboard.classList.toggle('hidden', !visible || role !== 'farmer');
@@ -424,7 +685,7 @@
                     archive.addEventListener('click', async () => {
                         archive.disabled = true;
                         try {
-                            await requestJson(`/api/farmer/listings/${item.id}/archive`, { method: 'POST' });
+                            await localRequest(`/api/farmer/listings/${item.id}/archive`, { method: 'POST' });
                             await loadListings();
                         } catch (error) {
                             setListingMessage(error.message, true);
@@ -437,7 +698,7 @@
                 return card;
             }
             async function loadListings() {
-                const result = await requestJson('/api/farmer/listings');
+                const result = await localRequest('/api/farmer/listings');
                 const activeItems = result.listings.filter(item => item.isActive);
                 const previousItems = result.listings.filter(item => !item.isActive);
                 const activeContainer = document.getElementById('active-listings');
@@ -539,7 +800,7 @@
                     buyButton.disabled = true;
                     buyButton.textContent = 'Placing order…';
                     try {
-                        const result = await requestJson('/api/customer/purchases', {
+                        const result = await localRequest('/api/customer/purchases', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ listingId: item.id, quantity: quantityInput.value })
@@ -561,8 +822,8 @@
             }
             async function loadCustomerDashboard() {
                 const [listingResult, orderResult] = await Promise.all([
-                    requestJson('/api/customer/listings'),
-                    requestJson('/api/customer/orders')
+                    localRequest('/api/customer/listings'),
+                    localRequest('/api/customer/orders')
                 ]);
                 const productContainer = document.getElementById('customer-products');
                 productContainer.replaceChildren(...listingResult.listings.map(makeCustomerProductCard));
@@ -664,7 +925,7 @@
                 submitButton.disabled = true;
                 submitButton.textContent = 'Please wait…';
                 try {
-                    const result = await requestJson(`/api/${registering ? 'register' : 'login'}`, {
+                    const result = await localRequest(`/api/${registering ? 'register' : 'login'}`, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
@@ -702,7 +963,7 @@
                 listingSubmit.textContent = 'Saving listing…';
                 listingMessage.classList.add('hidden');
                 try {
-                    await requestJson('/api/farmer/listings', {
+                    await localRequest('/api/farmer/listings', {
                         method: 'POST',
                         body: new FormData(listingForm)
                     });
@@ -727,7 +988,7 @@
                 }
                 button.disabled = true;
                 try {
-                    const result = await requestJson('/api/location', {
+                    const result = await localRequest('/api/location', {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ location })
@@ -735,8 +996,12 @@
                     currentUser.location = result.location;
                     messageElement.textContent = result.message;
                     messageElement.className = 'mt-2 rounded-lg bg-green-50 p-3 text-sm text-forest';
-                    if (userRole === 'customer') await loadCustomerDashboard();
-                    else await loadListings();
+                    if (userRole === 'customer') {
+                        document.getElementById('customer-message').classList.add('hidden');
+                        await loadCustomerDashboard();
+                    } else {
+                        await loadListings();
+                    }
                 } catch (error) {
                     messageElement.textContent = error.message;
                     messageElement.className = 'mt-2 rounded-lg bg-red-50 p-3 text-sm text-red-700';
@@ -765,7 +1030,7 @@
             });
             document.getElementById('farmer-logout').addEventListener('click', async () => {
                 try {
-                    await requestJson('/api/logout', { method: 'POST' });
+                    await localRequest('/api/logout', { method: 'POST' });
                     currentUser = null;
                     setDashboardVisible(false, 'farmer');
                 } catch (error) {
@@ -777,7 +1042,7 @@
             });
             document.getElementById('customer-logout').addEventListener('click', async () => {
                 try {
-                    await requestJson('/api/logout', { method: 'POST' });
+                    await localRequest('/api/logout', { method: 'POST' });
                     currentUser = null;
                     setDashboardVisible(false, 'customer');
                 } catch (error) {
@@ -785,7 +1050,7 @@
                 }
             });
             if (window.location.protocol !== 'file:') {
-                requestJson('/api/me').then(result => {
+                localRequest('/api/me').then(result => {
                     if (result.user.role === 'farmer') showFarmerDashboard(result.user);
                     else showCustomerDashboard(result.user);
                 }).catch(error => {

@@ -1,50 +1,22 @@
-# Deploying to Vercel
+# Deploying Kisan Direct
 
-This project exports its Express app from `api/[...path].js` as a Vercel Node.js
-Function for all `/api/*` routes. The build copies the static frontend from
-`front/` into `public/` for Vercel's CDN. The deployment configuration sets
-Vercel's framework to **Other**, so it does not try to run an Angular build. Do
-not set a separate Vercel Output Directory: that can publish only the static
-files and prevent the Express API function from receiving `/api/*` requests.
+This version is a static browser-based demo. It does not use a server, SQL
+database, or Vercel Functions. The Vercel build copies `front/index.html` into
+`public/` and publishes that directory.
 
-## Required services
+## Deploy to Vercel
 
-The full portal needs:
+1. Import `LalithyaMR/Market`, using the repository root as the project root.
+2. Select **Other** as the Framework Preset. The included `vercel.json` sets the
+   build command to `npm run build` and output directory to `public`.
+3. Deploy. No environment variables or database integration are required.
 
-- A remotely accessible MySQL database. Create a database named `kisan_direct_db`.
-  The app creates and updates its tables when the API starts.
-- A Vercel Blob store for product photos. Local uploads are stored in
-  `back/uploads/`; Vercel's filesystem is temporary, so deployed uploads use Blob.
+## Browser-only storage
 
-## Vercel setup
+Accounts, passwords (hashed in the browser), delivery addresses, listings,
+product photos, and purchases are stored in IndexedDB in the visitor's browser.
+Data is private to that browser on that device: it is not synchronized to other
+visitors, farmers, or devices. Clearing the browser's site data removes it.
+This is suitable for a demonstration, not a shared production marketplace.
 
-1. Import `LalithyaMR/Market` into Vercel and set the project root to the repository
-   root. The included `vercel.json` selects the build command; leave the Framework
-   Preset as **Other** and the Output Directory setting blank so Vercel can deploy
-   both the Express function and files in `public/`.
-2. Create a Vercel Blob store and connect it to the project. This provides
-   `BLOB_READ_WRITE_TOKEN` to the function.
-3. Add these environment variables for the Production environment (and Preview if
-   you also want preview deployments to use the API):
-
-   | Variable | Value |
-   | --- | --- |
-   | `DB_HOST` | Hostname of your hosted MySQL server |
-   | `DB_PORT` | MySQL port, usually `3306` |
-   | `DB_USER` | MySQL username |
-   | `DB_PASSWORD` | MySQL password |
-   | `DB_SSL` | `true` when required by your database provider |
-   | `SESSION_SECRET` | A randomly generated secret with at least 32 characters |
-   | `BLOB_READ_WRITE_TOKEN` | Provided by the connected Vercel Blob store |
-
-   The database must accept connections from Vercel's serverless functions. Do not
-   use `localhost` for `DB_HOST`; that would refer to the function instance.
-4. Redeploy after saving the environment variables.
-
-After deployment, open `https://<your-deployment-domain>/api/health`. A working
-API responds with JSON containing `"success": true`. If that URL returns an HTML
-page or HTTP 405, check that the Vercel project root is the repository root and
-the Output Directory setting is blank.
-
-The app's product-photo limit is 4 MB to fit within the request-size limit for
-serverless functions. Changing `SESSION_SECRET` signs users out of existing sessions.
+Product photos are resized and compressed in the browser before storage.
