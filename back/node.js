@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const multer = require('multer');
+const { del, put } = require('@vercel/blob');
 
 // Safely load dotenv if available
 try {
@@ -17,10 +18,10 @@ try {
 const app = express();
 const PORT = process.env.PORT || 3000;
 const uploadDirectory = path.join(__dirname, 'uploads');
-const sessions = new Map();
+const sessionSecret = process.env.SESSION_SECRET || (process.env.VERCEL ? null : crypto.randomBytes(32).toString('hex'));
 const sessionDurationSeconds = 7 * 24 * 60 * 60;
 
-fs.mkdirSync(uploadDirectory, { recursive: true });
+if (!process.env.VERCEL) fs.mkdirSync(uploadDirectory, { recursive: true });
 
 // Middleware
 app.use(express.json());
@@ -33,6 +34,7 @@ const dbConfig = {
     port: Number(process.env.DB_PORT || 3306),
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
+    ssl: process.env.DB_SSL === 'true' ? {} : undefined,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -114,6 +116,25 @@ async function createUsersTable() {
     console.log('Users table checked/created successfully.');
 }
 
+async function initializeDatabase() {
+    if (process.env.VERCEL && (!sessionSecret || sessionSecret.length < 32)) {
+        throw new Error('Set SESSION_SECRET to a random value of at least 32 characters.');
+    }
+    await createUsersTable();
+}
+
+let databaseInitialization;
+if (process.env.VERCEL) {
+    app.use((req, res, next) => {
+        databaseInitialization ||= initializeDatabase();
+        databaseInitialization.then(() => next()).catch(error => {
+            databaseInitialization = null;
+            console.error('Unable to initialize the application:', error);
+            res.status(500).json({ success: false, message: 'The application is not configured correctly.' });
+        });
+    });
+}
+
 const imageExtensions = {
     'image/jpeg': '.jpg',
     'image/png': '.png',
@@ -121,13 +142,8 @@ const imageExtensions = {
 };
 
 const upload = multer({
-    storage: multer.diskStorage({
-        destination: uploadDirectory,
-        filename: (req, file, callback) => {
-            callback(null, `${crypto.randomUUID()}${imageExtensions[file.mimetype] || ''}`);
-        }
-    }),
-    limits: { fileSize: 5 * 1024 * 1024, files: 1 },
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 4 * 1024 * 1024, files: 1 },
     fileFilter: (req, file, callback) => {
         if (!imageExtensions[file.mimetype]) {
             return callback(new Error('Please upload a JPG, PNG, or WebP image.'));
@@ -144,13 +160,51 @@ function getSessionToken(req) {
 
 function requireLogin(req, res, next) {
     const token = getSessionToken(req);
-    const session = token && sessions.get(token);
-    if (!session || session.expiresAt <= Date.now()) {
-        if (token) sessions.delete(token);
+    const session = token && readSessionToken(token);
+    if (!session) {
         return res.status(401).json({ success: false, message: 'Please log in to continue.' });
     }
-    req.user = { id: session.userId, role: session.role };
+    req.user = { id: session.id, role: session.role };
     next();
+}
+
+function createSessionToken(user) {
+    if (!sessionSecret || sessionSecret.length < 32) {
+        throw new Error('Set SESSION_SECRET to a random value of at least 32 characters.');
+    }
+    const payload = Buffer.from(JSON.stringify({
+        id: Number(user.id),
+        role: user.role,
+        expiresAt: Math.floor(Date.now() / 1000) + sessionDurationSeconds
+    })).toString('base64url');
+    const signature = crypto.createHmac('sha256', sessionSecret).update(payload).digest('hex');
+    return `${payload}.${signature}`;
+}
+
+function readSessionToken(token) {
+    if (!sessionSecret) return null;
+    const [payload, signature, extra] = token.split('.');
+    if (!payload || !signature || extra !== undefined) return null;
+
+    const expectedSignature = crypto.createHmac('sha256', sessionSecret).update(payload).digest();
+    const providedSignature = Buffer.from(signature, 'hex');
+    if (providedSignature.length !== expectedSignature.length ||
+        !crypto.timingSafeEqual(providedSignature, expectedSignature)) {
+        return null;
+    }
+
+    try {
+        const session = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'));
+        if (!Number.isSafeInteger(session.id) ||
+            !['customer', 'farmer'].includes(session.role) ||
+            !Number.isSafeInteger(session.expiresAt) ||
+            session.expiresAt <= Math.floor(Date.now() / 1000)) {
+            return null;
+        }
+        return session;
+    } catch {
+        return null;
+    }
 }
 
 function requireFarmer(req, res, next) {
@@ -177,33 +231,49 @@ function receiveListingImage(req, res, next) {
         return res.status(400).json({
             success: false,
             message: error instanceof multer.MulterError && error.code === 'LIMIT_FILE_SIZE'
-                ? 'Photo must be 5 MB or smaller.'
+                ? 'Photo must be 4 MB or smaller.'
                 : error.message
         });
     });
 }
 
-async function removeUploadedFile(file) {
-    if (file) await fs.promises.unlink(file.path);
+async function saveListingImage(file) {
+    const filename = `${crypto.randomUUID()}${imageExtensions[file.mimetype]}`;
+    if (process.env.BLOB_READ_WRITE_TOKEN) {
+        const blob = await put(`listings/${filename}`, file.buffer, {
+            access: 'public',
+            addRandomSuffix: false,
+            contentType: file.mimetype
+        });
+        return blob.url;
+    }
+    if (process.env.VERCEL) {
+        throw new Error('Configure BLOB_READ_WRITE_TOKEN in Vercel before uploading product photos.');
+    }
+    await fs.promises.writeFile(path.join(uploadDirectory, filename), file.buffer, { flag: 'wx' });
+    return `/uploads/${filename}`;
+}
+
+async function removeListingImage(imagePath) {
+    if (imagePath.startsWith('https://')) {
+        await del(imagePath);
+        return;
+    }
+    const filename = path.basename(imagePath);
+    await fs.promises.unlink(path.join(uploadDirectory, filename));
 }
 
 async function hasValidImageSignature(file) {
-    const handle = await fs.promises.open(file.path, 'r');
-    try {
-        const header = Buffer.alloc(12);
-        const { bytesRead } = await handle.read(header, 0, header.length, 0);
-        if (file.mimetype === 'image/jpeg') {
-            return bytesRead >= 3 && header[0] === 0xff && header[1] === 0xd8 && header[2] === 0xff;
-        }
-        if (file.mimetype === 'image/png') {
-            return bytesRead >= 8 && header.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
-        }
-        return file.mimetype === 'image/webp' &&
-            bytesRead >= 12 && header.toString('ascii', 0, 4) === 'RIFF' &&
-            header.toString('ascii', 8, 12) === 'WEBP';
-    } finally {
-        await handle.close();
+    const header = file.buffer.subarray(0, 12);
+    if (file.mimetype === 'image/jpeg') {
+        return header.length >= 3 && header[0] === 0xff && header[1] === 0xd8 && header[2] === 0xff;
     }
+    if (file.mimetype === 'image/png') {
+        return header.length >= 8 && header.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+    }
+    return file.mimetype === 'image/webp' &&
+        header.length >= 12 && header.toString('ascii', 0, 4) === 'RIFF' &&
+        header.toString('ascii', 8, 12) === 'WEBP';
 }
 
 // --- API ROUTES ---
@@ -263,12 +333,7 @@ app.post('/api/login', async (req, res) => {
             return res.status(401).json({ success: false, message: 'Invalid email, password, or role.' });
         }
 
-        const token = crypto.randomBytes(32).toString('hex');
-        sessions.set(token, {
-            userId: user.id,
-            role: user.role,
-            expiresAt: Date.now() + sessionDurationSeconds * 1000
-        });
+        const token = createSessionToken(user);
         const secureCookie = process.env.NODE_ENV === 'production' ? '; Secure' : '';
         res.setHeader('Set-Cookie', `kd_session=${token}; Max-Age=${sessionDurationSeconds}; Path=/; HttpOnly; SameSite=Lax${secureCookie}`);
         res.status(200).json({
@@ -311,9 +376,8 @@ app.put('/api/location', requireLogin, async (req, res) => {
 });
 
 app.post('/api/logout', (req, res) => {
-    const token = getSessionToken(req);
-    if (token) sessions.delete(token);
-    res.setHeader('Set-Cookie', 'kd_session=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax');
+    const secureCookie = process.env.NODE_ENV === 'production' ? '; Secure' : '';
+    res.setHeader('Set-Cookie', `kd_session=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax${secureCookie}`);
     res.json({ success: true });
 });
 
@@ -461,6 +525,7 @@ app.get('/api/farmer/listings', requireFarmer, async (req, res) => {
 });
 
 app.post('/api/farmer/listings', requireFarmer, receiveListingImage, async (req, res) => {
+    let imagePath;
     try {
         const { name, description = '', price, quantity, unit, shelfLifeDays } = req.body;
         const parsedPrice = Number(price);
@@ -474,18 +539,16 @@ app.post('/api/farmer/listings', requireFarmer, receiveListingImage, async (req,
             !Number.isFinite(parsedQuantity) || parsedQuantity <= 0 ||
             !Number.isInteger(parsedShelfLifeDays) || parsedShelfLifeDays < 1 || parsedShelfLifeDays > 365 ||
             !validUnits.includes(unit) || !req.file) {
-            if (req.file) await removeUploadedFile(req.file);
             return res.status(400).json({
                 success: false,
-                message: 'Provide a name, positive price and quantity, shelf life from 1 to 365 days, valid unit, and product photo.'
+                message: 'Provide a name, positive price and quantity, shelf life from 1 to 365 days, valid unit, and product photo up to 4 MB.'
             });
         }
         if (!await hasValidImageSignature(req.file)) {
-            await removeUploadedFile(req.file);
             return res.status(400).json({ success: false, message: 'The uploaded file is not a valid image.' });
         }
 
-        const imagePath = `/uploads/${req.file.filename}`;
+        imagePath = await saveListingImage(req.file);
         const [result] = await db.query(
             `INSERT INTO farmer_listings
                 (farmer_id, name, description, price, quantity, unit, shelf_life_days, image_path)
@@ -501,7 +564,13 @@ app.post('/api/farmer/listings', requireFarmer, receiveListingImage, async (req,
             }
         });
     } catch (error) {
-        if (req.file) await removeUploadedFile(req.file);
+        if (imagePath) {
+            try {
+                await removeListingImage(imagePath);
+            } catch (cleanupError) {
+                console.error('Unable to remove uploaded listing image:', cleanupError);
+            }
+        }
         console.error('Create listing error:', error);
         res.status(500).json({ success: false, message: 'Unable to save this listing.' });
     }
@@ -525,7 +594,7 @@ app.post('/api/farmer/listings/:id/archive', requireFarmer, async (req, res) => 
 
 async function startServer() {
     try {
-        await createUsersTable();
+        await initializeDatabase();
         app.listen(PORT, () => {
             console.log(`Kisan Direct server running at http://localhost:${PORT}`);
         });
@@ -535,4 +604,6 @@ async function startServer() {
     }
 }
 
-startServer();
+if (require.main === module) startServer();
+
+module.exports = app;
