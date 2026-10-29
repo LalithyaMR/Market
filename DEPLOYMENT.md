@@ -1,11 +1,11 @@
 # Deploying to Vercel
 
-This project exports its Express app from the repository root for Vercel to deploy
-as a Node.js Function. The build copies the static frontend from `front/` into
-`public/` for Vercel's CDN. The deployment configuration sets Vercel's framework
-to **Other**, so it does not try to run an Angular build. Do not set a separate
-Vercel Output Directory: that can publish only the static files and prevent the
-Express API function from receiving `/api/*` requests.
+This project exports its Express app from `api/[...path].js` as a Vercel Node.js
+Function for all `/api/*` routes. The build copies the static frontend from
+`front/` into `public/` for Vercel's CDN. The deployment configuration sets
+Vercel's framework to **Other**, so it does not try to run an Angular build. Do
+not set a separate Vercel Output Directory: that can publish only the static
+files and prevent the Express API function from receiving `/api/*` requests.
 
 ## Required services
 
@@ -19,9 +19,9 @@ The full portal needs:
 ## Vercel setup
 
 1. Import `LalithyaMR/Market` into Vercel and set the project root to the repository
-   root. The included `vercel.json` selects the build command; leave the Output
-   Directory setting blank so Vercel can deploy both the Express function and
-   files in `public/`.
+   root. The included `vercel.json` selects the build command; leave the Framework
+   Preset as **Other** and the Output Directory setting blank so Vercel can deploy
+   both the Express function and files in `public/`.
 2. Create a Vercel Blob store and connect it to the project. This provides
    `BLOB_READ_WRITE_TOKEN` to the function.
 3. Add these environment variables for the Production environment (and Preview if
@@ -40,6 +40,11 @@ The full portal needs:
    The database must accept connections from Vercel's serverless functions. Do not
    use `localhost` for `DB_HOST`; that would refer to the function instance.
 4. Redeploy after saving the environment variables.
+
+After deployment, open `https://<your-deployment-domain>/api/health`. A working
+API responds with JSON containing `"success": true`. If that URL returns an HTML
+page or HTTP 405, check that the Vercel project root is the repository root and
+the Output Directory setting is blank.
 
 The app's product-photo limit is 4 MB to fit within the request-size limit for
 serverless functions. Changing `SESSION_SECRET` signs users out of existing sessions.

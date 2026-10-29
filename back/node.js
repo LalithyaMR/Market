@@ -123,6 +123,16 @@ async function initializeDatabase() {
     await createUsersTable();
 }
 
+app.get('/api/health', async (req, res) => {
+    try {
+        await db.query('SELECT 1');
+        res.json({ success: true, service: 'Kisan Direct API', database: 'connected' });
+    } catch (error) {
+        console.error('API health check database error:', error);
+        res.status(503).json({ success: false, message: 'The database is unavailable.' });
+    }
+});
+
 let databaseInitialization;
 if (process.env.VERCEL) {
     app.use((req, res, next) => {
