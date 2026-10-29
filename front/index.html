@@ -357,7 +357,7 @@
                 try {
                     result = JSON.parse(responseText);
                 } catch {
-                    throw new Error('The server returned an unexpected response. Make sure the Node app is running, then open http://localhost:3000.');
+                    throw new Error(`The server returned a non-JSON response (${response.status}). Check that Vercel deployed the Express API and routes /api requests to it.`);
                 }
                 if (!response.ok) throw new Error(result.message || 'The request could not be completed.');
                 return result;
