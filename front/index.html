@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#2E7D32" />
+    <meta name="description" content="Buy fresh produce directly from local farmers. Discover fair, live market prices with Kisan Direct." />
+    <title>Kisan Direct — Fresh from the farm, fairly priced</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { forest: '#2E7D32', gold: '#F59E0B', sand: '#F9FAFB', ink: '#1F2937' }, fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] } } } };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+    <style>
+        html { scroll-behavior: smooth; }
+        body { font-family: 'DM Sans', sans-serif; color: #1F2937; }
+        h1, h2, h3, .brand-font { font-family: 'Manrope', sans-serif; }
+        .hero-pattern { background-image: radial-gradient(rgba(46,125,50,.08) 1px, transparent 1px); background-size: 20px 20px; }
+        .produce-card img { transition: transform .45s ease; }
+        .produce-card:hover img { transform: scale(1.05); }
+        .modal-backdrop { background: rgba(15, 23, 42, .62); backdrop-filter: blur(4px); }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    </style>
+</head>
+<body class="bg-sand antialiased">
+    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-3 focus:text-forest">Skip to content</a>
+
+    <header class="sticky top-0 z-40 border-b border-emerald-950/5 bg-white/95 backdrop-blur-md">
+        <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8" aria-label="Main navigation">
+            <a href="#home" class="flex items-center gap-2.5" aria-label="Kisan Direct home">
+                <span class="grid h-10 w-10 place-items-center rounded-xl bg-forest text-lg text-white"><i class="fa-solid fa-seedling" aria-hidden="true"></i></span>
+                <span class="brand-font text-xl font-extrabold tracking-tight text-ink">Kisan<span class="text-forest">Direct</span></span>
+            </a>
+            <div id="nav-links" class="absolute left-0 right-0 top-full hidden border-b bg-white px-5 pb-5 pt-2 shadow-lg md:static md:flex md:items-center md:gap-7 md:border-0 md:bg-transparent md:p-0 md:shadow-none">
+                <a class="nav-link py-2 text-sm font-semibold text-slate-600 hover:text-forest" href="#about">About Us</a>
+                <a class="nav-link py-2 text-sm font-semibold text-slate-600 hover:text-forest" href="#features">Features</a>
+                <a class="nav-link py-2 text-sm font-semibold text-slate-600 hover:text-forest" href="#prices">Live Prices</a>
+                <a class="nav-link py-2 text-sm font-semibold text-slate-600 hover:text-forest" href="#how-it-works">How It Works</a>
+                <a class="nav-link py-2 text-sm font-semibold text-slate-600 hover:text-forest" href="#contact">Contact</a>
+            </div>
+            <div class="hidden items-center gap-2 lg:flex">
+                <button data-open-modal="customer" class="rounded-lg px-3 py-2 text-sm font-bold text-ink hover:bg-emerald-50">Customer portal</button>
+                <button data-open-modal="farmer" class="rounded-lg bg-forest px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-green-800">Farmer portal <i class="fa-solid fa-arrow-right ml-1 text-xs" aria-hidden="true"></i></button>
+            </div>
+            <button id="menu-toggle" class="grid h-10 w-10 place-items-center rounded-lg text-ink hover:bg-slate-100 md:hidden" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-links"><i class="fa-solid fa-bars" aria-hidden="true"></i></button>
+        </nav>
+    </header>
+
+    <main id="main">
+        <section id="home" class="hero-pattern overflow-hidden">
+            <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-[1.05fr_.95fr] lg:px-8 lg:py-28">
+                <div class="relative z-10">
+                    <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-green-200 bg-white/80 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-forest"><span class="h-2 w-2 rounded-full bg-green-500"></span> The harvest, without the middleman</div>
+                    <h1 class="brand-font max-w-2xl text-4xl font-extrabold leading-[1.12] tracking-tight text-ink sm:text-5xl lg:text-[3.7rem]">Empowering farmers.<br /><span class="text-forest">Delivering freshness.</span></h1>
+                    <p class="mt-6 max-w-xl text-lg leading-8 text-slate-600">Good food has a better journey. Buy straight from the people who grow it, with fresh harvests and fair market prices you can trust.</p>
+                    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                        <a href="#explore" class="inline-flex items-center justify-center gap-2 rounded-xl bg-forest px-5 py-3.5 text-sm font-bold text-white shadow-lg shadow-green-900/15 transition hover:-translate-y-0.5 hover:bg-green-800">Explore products &amp; live prices <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i></a>
+                        <button data-open-modal="farmer" class="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 bg-white px-5 py-3.5 text-sm font-bold text-ink transition hover:border-forest hover:text-forest">Join as a farmer <i class="fa-solid fa-arrow-up-right-from-square text-xs" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 border-t border-slate-200 pt-6 text-sm text-slate-600">
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-circle-check text-forest" aria-hidden="true"></i> Fair prices, clearly shown</span>
+                        <span class="flex items-center gap-2"><i class="fa-solid fa-leaf text-forest" aria-hidden="true"></i> Fresh from local farms</span>
+                    </div>
+                </div>
+                <div class="relative mx-auto w-full max-w-xl">
+                    <div class="absolute -right-6 -top-8 h-40 w-40 rounded-full bg-amber-200/60 blur-3xl"></div>
+                    <div class="absolute -bottom-8 -left-7 h-44 w-44 rounded-full bg-green-200/70 blur-3xl"></div>
+                    <div class="relative overflow-hidden rounded-[2rem] bg-green-100 p-2 shadow-2xl shadow-green-950/10">
+                        <img class="h-[340px] w-full rounded-[1.6rem] object-cover sm:h-[440px]" src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&amp;fit=crop&amp;w=1200&amp;q=85" alt="A colorful selection of freshly harvested vegetables at a local produce market" />
+                        <div class="absolute bottom-6 left-6 right-6 rounded-2xl border border-white/60 bg-white/95 p-4 shadow-xl backdrop-blur sm:bottom-8 sm:left-8 sm:right-auto sm:min-w-[280px]">
+                            <div class="flex items-center gap-3">
+                                <span class="grid h-11 w-11 place-items-center rounded-full bg-amber-100 text-gold"><i class="fa-solid fa-hand-holding-heart" aria-hidden="true"></i></span>
+                                <div><p class="text-xs font-semibold text-slate-500">From a farm near you</p><p class="font-bold text-ink">Picked fresh. Priced fair.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -right-3 top-8 hidden items-center gap-2 rounded-xl bg-white px-4 py-3 shadow-lg sm:flex"><span class="grid h-9 w-9 place-items-center rounded-full bg-green-100 text-forest"><i class="fa-solid fa-indian-rupee-sign" aria-hidden="true"></i></span><span class="text-xs font-semibold leading-4 text-slate-500">Transparent<br /><strong class="text-ink">market rates</strong></span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="prices" class="border-y border-green-900/10 bg-white py-10" aria-labelledby="prices-heading">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col justify-between gap-5 md:flex-row md:items-end">
+                    <div><div class="mb-2 flex items-center gap-2 text-xs font-bold uppercase tracking-[.16em] text-forest"><span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-green-600"></span></span> Market snapshot</div><h2 id="prices-heading" class="brand-font text-2xl font-extrabold tracking-tight sm:text-3xl">Know the price. Grow the trust.</h2><p class="mt-2 text-sm text-slate-500">Indicative prices per kg · Updated today</p></div>
+                    <label class="relative block w-full md:max-w-xs"><span class="sr-only">Search crops or regions</span><i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-sm text-slate-400" aria-hidden="true"></i><input id="price-search" type="search" placeholder="Search crop or region…" class="w-full rounded-xl border border-slate-200 bg-sand py-3 pl-11 pr-4 text-sm outline-none transition placeholder:text-slate-400 focus:border-forest focus:ring-2 focus:ring-green-100" /></label>
+                </div>
+                <div id="price-grid" class="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <article data-price-item data-search="tomatoes tomato maharashtra nashik" class="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-green-300 hover:shadow-md"><div class="flex items-start justify-between"><span class="grid h-10 w-10 place-items-center rounded-xl bg-red-50 text-red-500"><i class="fa-solid fa-apple-whole" aria-hidden="true"></i></span><span class="rounded-full bg-green-50 px-2.5 py-1 text-xs font-bold text-forest">↗ 2.4%</span></div><p class="mt-4 text-sm text-slate-500">Tomatoes <span class="text-slate-300">·</span> Nashik</p><p class="mt-1 text-2xl font-extrabold tracking-tight">₹24<span class="text-sm font-medium text-slate-400"> / kg</span></p></article>
+                    <article data-price-item data-search="wheat madhya pradesh indore" class="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-green-300 hover:shadow-md"><div class="flex items-start justify-between"><span class="grid h-10 w-10 place-items-center rounded-xl bg-amber-50 text-amber-600"><i class="fa-solid fa-wheat-awn" aria-hidden="true"></i></span><span class="rounded-full bg-red-50 px-2.5 py-1 text-xs font-bold text-red-600">↘ 0.8%</span></div><p class="mt-4 text-sm text-slate-500">Wheat <span class="text-slate-300">·</span> Indore</p><p class="mt-1 text-2xl font-extrabold tracking-tight">₹32<span class="text-sm font-medium text-slate-400"> / kg</span></p></article>
+                    <article data-price-item data-search="organic rice rice karnataka mysuru" class="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-green-300 hover:shadow-md"><div class="flex items-start justify-between"><span class="grid h-10 w-10 place-items-center rounded-xl bg-lime-50 text-lime-700"><i class="fa-solid fa-seedling" aria-hidden="true"></i></span><span class="rounded-full bg-green-50 px-2.5 py-1 text-xs font-bold text-forest">↗ 1.2%</span></div><p class="mt-4 text-sm text-slate-500">Organic rice <span class="text-slate-300">·</span> Mysuru</p><p class="mt-1 text-2xl font-extrabold tracking-tight">₹68<span class="text-sm font-medium text-slate-400"> / kg</span></p></article>
+                    <article data-price-item data-search="onions onion maharashtra pune" class="rounded-2xl border border-slate-200 bg-white p-4 transition hover:border-green-300 hover:shadow-md"><div class="flex items-start justify-between"><span class="grid h-10 w-10 place-items-center rounded-xl bg-violet-50 text-violet-600"><i class="fa-solid fa-circle" aria-hidden="true"></i></span><span class="rounded-full bg-green-50 px-2.5 py-1 text-xs font-bold text-forest">↗ 0.5%</span></div><p class="mt-4 text-sm text-slate-500">Onions <span class="text-slate-300">·</span> Pune</p><p class="mt-1 text-2xl font-extrabold tracking-tight">₹28<span class="text-sm font-medium text-slate-400"> / kg</span></p></article>
+                </div>
+                <p id="no-prices" class="mt-6 hidden rounded-xl bg-sand p-5 text-center text-sm text-slate-500">No matching crops or regions. Try another search.</p>
+                <p class="mt-4 text-xs text-slate-400">Prices are illustrative market references and may vary by grade, quantity, and location.</p>
+            </div>
+        </section>
+
+        <section id="about" class="py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mx-auto max-w-2xl text-center"><span class="text-xs font-bold uppercase tracking-[.18em] text-forest">A fairer food journey</span><h2 class="brand-font mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">Good for the people who grow.<br class="hidden sm:block" /> Better for the people who eat.</h2><p class="mt-5 leading-7 text-slate-600">We bring farmers and households closer together. By making the journey simpler and prices more visible, Kisan Direct helps farmers earn fairly and families enjoy fresher food.</p></div>
+                <div id="features" class="mt-12 grid gap-5 md:grid-cols-3">
+                    <article class="rounded-2xl border border-slate-200 bg-white p-7"><span class="grid h-12 w-12 place-items-center rounded-2xl bg-green-50 text-xl text-forest"><i class="fa-solid fa-handshake-angle" aria-hidden="true"></i></span><h3 class="brand-font mt-5 text-lg font-bold">Direct from the source</h3><p class="mt-2 text-sm leading-6 text-slate-600">Buy closer to the farm, so more value reaches the people who grow your food.</p></article>
+                    <article class="rounded-2xl border border-slate-200 bg-white p-7"><span class="grid h-12 w-12 place-items-center rounded-2xl bg-amber-50 text-xl text-amber-600"><i class="fa-solid fa-chart-line" aria-hidden="true"></i></span><h3 class="brand-font mt-5 text-lg font-bold">Prices in the open</h3><p class="mt-2 text-sm leading-6 text-slate-600">See local market references alongside farm prices and make informed choices.</p></article>
+                    <article class="rounded-2xl border border-slate-200 bg-white p-7"><span class="grid h-12 w-12 place-items-center rounded-2xl bg-blue-50 text-xl text-blue-600"><i class="fa-solid fa-award" aria-hidden="true"></i></span><h3 class="brand-font mt-5 text-lg font-bold">Quality you can trust</h3><p class="mt-2 text-sm leading-6 text-slate-600">Know where your produce comes from with farm details and careful quality checks.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="bg-[#eef5ed] py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="grid items-center gap-12 lg:grid-cols-[.8fr_1.2fr]">
+                    <div><span class="text-xs font-bold uppercase tracking-[.18em] text-forest">One simple connection</span><h2 class="brand-font mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">A better way from farm to table.</h2><p class="mt-4 leading-7 text-slate-600">Whether you’re filling your basket or bringing a harvest to market, getting started takes just a few simple steps.</p><a href="#explore" class="mt-6 inline-flex items-center gap-2 font-bold text-forest hover:text-green-900">Start exploring <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i></a></div>
+                    <div class="grid gap-4 sm:grid-cols-3">
+                        <article class="rounded-2xl bg-white p-6 shadow-sm"><span class="text-sm font-extrabold text-gold">01</span><h3 class="brand-font mt-4 font-bold">Find your harvest</h3><p class="mt-2 text-sm leading-6 text-slate-600">Browse seasonal produce and meet the farms behind it.</p></article>
+                        <article class="rounded-2xl bg-white p-6 shadow-sm"><span class="text-sm font-extrabold text-gold">02</span><h3 class="brand-font mt-4 font-bold">Choose with confidence</h3><p class="mt-2 text-sm leading-6 text-slate-600">Compare direct prices with local market references.</p></article>
+                        <article class="rounded-2xl bg-white p-6 shadow-sm"><span class="text-sm font-extrabold text-gold">03</span><h3 class="brand-font mt-4 font-bold">Enjoy the good stuff</h3><p class="mt-2 text-sm leading-6 text-slate-600">Place your order and get freshness delivered to your door.</p></article>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portals" class="py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="mb-10 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><span class="text-xs font-bold uppercase tracking-[.18em] text-forest">Your Kisan Direct</span><h2 class="brand-font mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">A portal for every partner.</h2></div><p class="max-w-md text-sm leading-6 text-slate-600">A simpler way to shop local or take your farm business online. Choose the path that’s right for you.</p></div>
+                <div class="grid gap-5 lg:grid-cols-2">
+                    <article class="overflow-hidden rounded-3xl bg-forest p-7 text-white sm:p-9"><div class="flex items-start justify-between"><span class="grid h-12 w-12 place-items-center rounded-2xl bg-white/15 text-xl"><i class="fa-solid fa-basket-shopping" aria-hidden="true"></i></span><span class="rounded-full bg-white/15 px-3 py-1 text-xs font-bold">For customers</span></div><h3 class="brand-font mt-6 text-2xl font-extrabold">Fresh choices. Fair prices.</h3><p class="mt-3 max-w-md text-sm leading-6 text-green-50">Discover seasonal harvests, learn about your farmers, and keep track of every order in one place.</p><ul class="mt-6 space-y-3 text-sm text-green-50"><li><i class="fa-solid fa-check mr-2 text-amber-300" aria-hidden="true"></i>Browse fresh, local produce</li><li><i class="fa-solid fa-check mr-2 text-amber-300" aria-hidden="true"></i>Meet the farmers who grow it</li><li><i class="fa-solid fa-check mr-2 text-amber-300" aria-hidden="true"></i>Manage and track your orders</li></ul><button data-open-modal="customer" class="mt-8 rounded-xl bg-white px-5 py-3 text-sm font-bold text-forest transition hover:bg-green-50">Open customer portal <i class="fa-solid fa-arrow-right ml-1 text-xs" aria-hidden="true"></i></button></article>
+                    <article class="overflow-hidden rounded-3xl border border-amber-200 bg-[#fff9ed] p-7 sm:p-9"><div class="flex items-start justify-between"><span class="grid h-12 w-12 place-items-center rounded-2xl bg-amber-100 text-xl text-amber-700"><i class="fa-solid fa-tractor" aria-hidden="true"></i></span><span class="rounded-full bg-amber-100 px-3 py-1 text-xs font-bold text-amber-800">For farmers &amp; sellers</span></div><h3 class="brand-font mt-6 text-2xl font-extrabold">Your farm. Your terms.</h3><p class="mt-3 max-w-md text-sm leading-6 text-slate-600">Bring your harvest to more buyers, set your farm-gate prices, and keep inventory organized.</p><ul class="mt-6 space-y-3 text-sm text-slate-700"><li><i class="fa-solid fa-check mr-2 text-forest" aria-hidden="true"></i>List crops and seasonal harvests</li><li><i class="fa-solid fa-check mr-2 text-forest" aria-hidden="true"></i>Set transparent farm-gate prices</li><li><i class="fa-solid fa-check mr-2 text-forest" aria-hidden="true"></i>Manage stock and buyer orders</li></ul><button data-open-modal="farmer" class="mt-8 rounded-xl bg-forest px-5 py-3 text-sm font-bold text-white transition hover:bg-green-800">Open farmer portal <i class="fa-solid fa-arrow-right ml-1 text-xs" aria-hidden="true"></i></button></article>
+                </div>
+            </div>
+        </section>
+
+        <section id="explore" class="border-y border-slate-200 bg-white py-20 sm:py-24">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><span class="text-xs font-bold uppercase tracking-[.18em] text-forest">Picked for the season</span><h2 class="brand-font mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">A little closer to the farm.</h2></div><a href="#prices" class="inline-flex items-center gap-2 text-sm font-bold text-forest hover:text-green-900">See live market prices <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i></a></div>
+                <div class="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <article class="produce-card overflow-hidden rounded-2xl border border-slate-200 bg-white"><div class="h-48 overflow-hidden bg-red-50"><img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1546094096-0df4bcaaa337?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Fresh red tomatoes" loading="lazy" /></div><div class="p-5"><p class="text-xs font-semibold uppercase tracking-wide text-forest">Nashik, Maharashtra</p><h3 class="brand-font mt-1 text-lg font-bold">Vine-ripened tomatoes</h3><div class="mt-4 flex items-end justify-between"><div><p class="text-xs text-slate-500">Farm-direct</p><p class="font-extrabold">₹24 <span class="text-xs font-medium text-slate-400">/ kg</span></p></div><div class="text-right"><p class="text-xs text-slate-500">Market ref.</p><p class="text-sm font-semibold text-slate-500">₹32 / kg</p></div></div></div></article>
+                    <article class="produce-card overflow-hidden rounded-2xl border border-slate-200 bg-white"><div class="h-48 overflow-hidden bg-green-50"><img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1566385101042-1a0aa0c1268c?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Fresh green leafy vegetables" loading="lazy" /></div><div class="p-5"><p class="text-xs font-semibold uppercase tracking-wide text-forest">Pune, Maharashtra</p><h3 class="brand-font mt-1 text-lg font-bold">Garden greens</h3><div class="mt-4 flex items-end justify-between"><div><p class="text-xs text-slate-500">Farm-direct</p><p class="font-extrabold">₹36 <span class="text-xs font-medium text-slate-400">/ bunch</span></p></div><div class="text-right"><p class="text-xs text-slate-500">Market ref.</p><p class="text-sm font-semibold text-slate-500">₹45 / bunch</p></div></div></div></article>
+                    <article class="produce-card overflow-hidden rounded-2xl border border-slate-200 bg-white"><div class="h-48 overflow-hidden bg-amber-50"><img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Freshly harvested potatoes" loading="lazy" /></div><div class="p-5"><p class="text-xs font-semibold uppercase tracking-wide text-forest">Indore, Madhya Pradesh</p><h3 class="brand-font mt-1 text-lg font-bold">Farm-fresh potatoes</h3><div class="mt-4 flex items-end justify-between"><div><p class="text-xs text-slate-500">Farm-direct</p><p class="font-extrabold">₹22 <span class="text-xs font-medium text-slate-400">/ kg</span></p></div><div class="text-right"><p class="text-xs text-slate-500">Market ref.</p><p class="text-sm font-semibold text-slate-500">₹29 / kg</p></div></div></div></article>
+                    <article class="produce-card overflow-hidden rounded-2xl border border-slate-200 bg-white"><div class="h-48 overflow-hidden bg-orange-50"><img class="h-full w-full object-cover" src="https://images.unsplash.com/photo-1587049352851-8d4e89133924?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="Golden ripe mangoes" loading="lazy" /></div><div class="p-5"><p class="text-xs font-semibold uppercase tracking-wide text-forest">Ratnagiri, Maharashtra</p><h3 class="brand-font mt-1 text-lg font-bold">Seasonal mangoes</h3><div class="mt-4 flex items-end justify-between"><div><p class="text-xs text-slate-500">Farm-direct</p><p class="font-extrabold">₹95 <span class="text-xs font-medium text-slate-400">/ kg</span></p></div><div class="text-right"><p class="text-xs text-slate-500">Market ref.</p><p class="text-sm font-semibold text-slate-500">₹125 / kg</p></div></div></div></article>
+                </div>
+                <p class="mt-5 text-xs text-slate-400">Sample listings for demonstration. Availability and prices change with the season and location.</p>
+            </div>
+        </section>
+
+        <section class="bg-forest px-4 py-16 text-center text-white sm:py-20"><div class="mx-auto max-w-3xl"><span class="text-xs font-bold uppercase tracking-[.2em] text-green-200">Let’s grow together</span><h2 class="brand-font mt-3 text-3xl font-extrabold tracking-tight sm:text-4xl">A fairer food system starts with us.</h2><p class="mx-auto mt-4 max-w-xl text-green-100">Find your next favorite farm, or bring your harvest to a community ready to support local growers.</p><div class="mt-7 flex flex-col justify-center gap-3 sm:flex-row"><a href="#explore" class="rounded-xl bg-white px-5 py-3 font-bold text-forest hover:bg-green-50">Explore the harvest</a><button data-open-modal="farmer" class="rounded-xl border border-white/40 px-5 py-3 font-bold text-white hover:bg-white/10">I’m a farmer</button></div></div></section>
+
+        <section id="farmer-dashboard" class="hidden min-h-[70vh] bg-sand px-4 py-12 sm:px-6 lg:px-8" aria-labelledby="dashboard-title">
+            <div class="mx-auto max-w-7xl">
+                <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
+                    <div><p class="text-sm font-bold uppercase tracking-wider text-forest">Farmer portal</p><h1 id="dashboard-title" class="brand-font mt-1 text-3xl font-extrabold text-ink">Your produce listings</h1><p id="dashboard-welcome" class="mt-2 text-slate-600"></p></div>
+                    <button id="farmer-logout" type="button" class="rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-ink hover:border-forest hover:text-forest">Log out</button>
+                </div>
+
+                <form id="farmer-location-form" class="mt-6 flex flex-col gap-3 rounded-2xl border border-slate-200 bg-white p-5 sm:flex-row sm:items-end">
+                    <div class="flex-1"><label for="farmer-location" class="mb-1.5 block text-sm font-semibold">Farm location</label><input id="farmer-location" name="location" maxlength="255" autocomplete="street-address" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="City, district, or farm address" /><p class="mt-1 text-xs text-slate-500">Shown to customers with your products. Location is not sent to a mapping service.</p></div>
+                    <button id="farmer-location-save" type="submit" class="rounded-xl bg-forest px-5 py-3 text-sm font-bold text-white hover:bg-green-800 disabled:opacity-60">Save farm location</button>
+                </form>
+                <p id="farmer-location-message" class="mt-2 hidden rounded-lg p-3 text-sm" role="status"></p>
+
+                <div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]">
+                    <form id="listing-form" class="h-fit space-y-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6" enctype="multipart/form-data">
+                        <div><h2 class="brand-font text-xl font-bold">Add an item for sale</h2><p class="mt-1 text-sm text-slate-500">Add a fresh photo, current price, and available quantity.</p></div>
+                        <div><label for="listing-name" class="mb-1.5 block text-sm font-semibold">Vegetable or produce name</label><input id="listing-name" name="name" maxlength="100" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="e.g. Tomatoes" /></div>
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label for="listing-price" class="mb-1.5 block text-sm font-semibold">Price (₹)</label><input id="listing-price" name="price" type="number" min="0.01" step="0.01" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="0.00" /></div>
+                            <div><label for="listing-quantity" class="mb-1.5 block text-sm font-semibold">Quantity</label><input id="listing-quantity" name="quantity" type="number" min="0.01" step="0.01" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="e.g. 20" /></div>
+                        </div>
+                        <div><label for="listing-unit" class="mb-1.5 block text-sm font-semibold">Quantity unit</label><select id="listing-unit" name="unit" required class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100"><option value="kg">Kilograms (kg)</option><option value="g">Grams (g)</option><option value="bunch">Bunches</option><option value="box">Boxes</option><option value="piece">Pieces</option></select></div>
+                        <div><label for="listing-shelf-life" class="mb-1.5 block text-sm font-semibold">Shelf life remaining (days)</label><input id="listing-shelf-life" name="shelfLifeDays" type="number" min="1" max="365" step="1" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="e.g. 4" /><p class="mt-1 text-xs text-slate-500">Enter the number of days the produce is expected to stay fresh.</p></div>
+                        <div><label for="listing-description" class="mb-1.5 block text-sm font-semibold">Details <span class="font-normal text-slate-400">(optional)</span></label><textarea id="listing-description" name="description" maxlength="500" rows="3" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="Harvest date, variety, or pickup details"></textarea></div>
+                        <div><label for="listing-image" class="mb-1.5 block text-sm font-semibold">Real item photo</label><input id="listing-image" name="image" type="file" accept="image/jpeg,image/png,image/webp" required class="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-green-50 file:px-3 file:py-2 file:font-semibold file:text-forest" /><p class="mt-1 text-xs text-slate-500">JPG, PNG, or WebP; up to 5 MB.</p><img id="image-preview" class="mt-3 hidden max-h-48 w-full rounded-xl object-cover" alt="Preview of the selected produce photo" /></div>
+                        <button id="listing-submit" type="submit" class="w-full rounded-xl bg-forest px-4 py-3 font-bold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-60">Add listing</button>
+                        <p id="listing-message" class="hidden rounded-lg p-3 text-center text-sm" role="status"></p>
+                    </form>
+
+                    <div class="space-y-8">
+                        <section aria-labelledby="active-listings-heading">
+                            <div class="flex items-center justify-between"><h2 id="active-listings-heading" class="brand-font text-xl font-bold">Currently selling</h2><span id="active-count" class="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-forest">0 items</span></div>
+                            <div id="active-listings" class="mt-4 grid gap-4 sm:grid-cols-2"></div>
+                            <p id="active-empty" class="mt-3 rounded-xl border border-dashed border-slate-300 bg-white p-5 text-sm text-slate-500">No active items yet. Add your first produce listing.</p>
+                        </section>
+                        <section aria-labelledby="previous-listings-heading">
+                            <div class="flex items-center justify-between"><h2 id="previous-listings-heading" class="brand-font text-xl font-bold">Previous items</h2><span id="previous-count" class="rounded-full bg-slate-200 px-3 py-1 text-xs font-bold text-slate-600">0 items</span></div>
+                            <div id="previous-listings" class="mt-4 grid gap-4 sm:grid-cols-2"></div>
+                            <p id="previous-empty" class="mt-3 hidden rounded-xl border border-dashed border-slate-300 bg-white p-5 text-sm text-slate-500">Items you stop selling will appear here.</p>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="customer-dashboard" class="hidden min-h-[70vh] bg-sand px-4 py-12 sm:px-6 lg:px-8" aria-labelledby="customer-dashboard-title">
+            <div class="mx-auto max-w-7xl">
+                <div class="relative isolate overflow-hidden rounded-[2rem] bg-gradient-to-br from-green-900 via-forest to-emerald-700 px-6 py-8 text-white shadow-xl shadow-green-950/10 sm:px-10 sm:py-10">
+                    <div class="absolute -right-12 -top-20 -z-10 h-64 w-64 rounded-full bg-white/10 blur-2xl"></div>
+                    <div class="absolute -bottom-28 right-1/3 -z-10 h-64 w-64 rounded-full bg-lime-300/10 blur-3xl"></div>
+                    <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-start">
+                        <div class="max-w-2xl">
+                            <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-green-50"><i class="fa-solid fa-leaf text-lime-300" aria-hidden="true"></i> Your farm-fresh basket</span>
+                            <h1 id="customer-dashboard-title" class="brand-font mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">Fresh from local farms</h1>
+                            <p id="customer-dashboard-welcome" class="mt-2 text-sm leading-6 text-green-50 sm:text-base"></p>
+                        </div>
+                        <button id="customer-logout" type="button" class="shrink-0 rounded-xl border border-white/25 bg-white/10 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-white/20"><i class="fa-solid fa-arrow-right-from-bracket mr-2" aria-hidden="true"></i>Log out</button>
+                    </div>
+                    <div class="mt-8 grid gap-3 sm:grid-cols-3">
+                        <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm"><div class="flex items-center gap-3"><span class="grid h-10 w-10 place-items-center rounded-xl bg-white/15 text-lime-200"><i class="fa-solid fa-carrot" aria-hidden="true"></i></span><div><p class="text-xs font-medium text-green-100">Fresh picks</p><p id="customer-product-count" class="mt-0.5 text-lg font-extrabold">—</p></div></div></div>
+                        <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm"><div class="flex items-center gap-3"><span class="grid h-10 w-10 place-items-center rounded-xl bg-white/15 text-amber-200"><i class="fa-solid fa-truck-fast" aria-hidden="true"></i></span><div><p class="text-xs font-medium text-green-100">Typical delivery</p><p class="mt-0.5 text-lg font-extrabold">2–4 days</p></div></div></div>
+                        <div class="rounded-2xl border border-white/15 bg-white/10 p-4 backdrop-blur-sm"><div class="flex items-center gap-3"><span class="grid h-10 w-10 place-items-center rounded-xl bg-white/15 text-amber-200"><i class="fa-solid fa-tag" aria-hidden="true"></i></span><div><p class="text-xs font-medium text-green-100">Bulk savings</p><p class="mt-0.5 text-lg font-extrabold">Up to 10% off</p></div></div></div>
+                    </div>
+                </div>
+                <div class="mt-5 flex items-start gap-3 rounded-2xl border border-green-200 bg-green-50 p-4 text-sm text-green-900 shadow-sm">
+                    <i class="fa-solid fa-circle-info mt-0.5 text-forest" aria-hidden="true"></i>
+                    <p><strong>Good to know:</strong> Delivery usually takes 2–4 days after ordering; timing depends on the farm, so confirm with the farmer. For produce with less than 5 days of shelf life, confirm it can arrive within 2 days. Save 5% on 10+ units or 10% on 25+ units.</p>
+                </div>
+                <form id="customer-location-form" class="mt-5 flex flex-col gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:flex-row sm:items-end sm:p-6">
+                    <div class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-green-50 text-lg text-forest"><i class="fa-solid fa-location-dot" aria-hidden="true"></i></div>
+                    <div class="flex-1"><label for="customer-location" class="mb-1.5 block text-sm font-bold text-ink">Where should we deliver?</label><input id="customer-location" name="location" maxlength="255" autocomplete="street-address" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="City, area, or delivery address" /><p class="mt-1 text-xs text-slate-500">Required to place an order. Saved with your account and order; not sent to a mapping service.</p></div>
+                    <button id="customer-location-save" type="submit" class="rounded-xl bg-forest px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-green-800 disabled:opacity-60"><i class="fa-solid fa-floppy-disk mr-2" aria-hidden="true"></i>Save location</button>
+                </form>
+                <p id="customer-location-message" class="mt-2 hidden rounded-lg p-3 text-sm" role="status"></p>
+                <section class="mt-8" aria-labelledby="customer-products-heading">
+                    <div class="flex items-end justify-between gap-3"><div><p class="text-xs font-bold uppercase tracking-[.16em] text-forest">Straight from the growers</p><h2 id="customer-products-heading" class="brand-font mt-1 text-2xl font-extrabold text-ink">Available today</h2></div><button id="customer-refresh" type="button" class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-bold text-forest shadow-sm transition hover:border-green-300 hover:bg-green-50"><i class="fa-solid fa-rotate mr-2" aria-hidden="true"></i>Refresh</button></div>
+                    <p id="customer-message" class="mt-4 hidden rounded-lg p-3 text-center text-sm" role="status"></p>
+                    <div id="customer-products" class="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+                    <p id="customer-products-empty" class="mt-4 hidden rounded-xl border border-dashed border-slate-300 bg-white p-5 text-sm text-slate-500">There are no products available right now. Please check back soon.</p>
+                </section>
+                <section class="mt-14" aria-labelledby="customer-orders-heading">
+                    <div class="flex items-end justify-between gap-3"><div><p class="text-xs font-bold uppercase tracking-[.16em] text-forest">Your basket history</p><h2 id="customer-orders-heading" class="brand-font mt-1 text-2xl font-extrabold text-ink">Your purchases</h2></div><span id="customer-order-count" class="rounded-full bg-green-100 px-3 py-1 text-xs font-bold text-forest">0 orders</span></div>
+                    <div id="customer-orders" class="mt-4 grid gap-3"></div>
+                    <p id="customer-orders-empty" class="mt-3 rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-sm text-slate-500"><i class="fa-solid fa-basket-shopping mr-2 text-forest" aria-hidden="true"></i>Your purchases will appear here after you place your first order.</p>
+                </section>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact" class="bg-[#17251a] text-slate-300">
+        <div class="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-2 lg:grid-cols-4 lg:px-8">
+            <div class="lg:col-span-1"><a href="#home" class="inline-flex items-center gap-2.5 text-white"><span class="grid h-10 w-10 place-items-center rounded-xl bg-forest"><i class="fa-solid fa-seedling" aria-hidden="true"></i></span><span class="brand-font text-xl font-extrabold">Kisan<span class="text-green-400">Direct</span></span></a><p class="mt-4 max-w-xs text-sm leading-6 text-slate-400">Connecting farmers directly to your table with real-time fair market pricing.</p><div class="mt-5 flex gap-3"><a class="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-white/20" href="https://instagram.com" aria-label="Instagram"><i class="fa-brands fa-instagram" aria-hidden="true"></i></a><a class="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-white/20" href="https://facebook.com" aria-label="Facebook"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></a><a class="grid h-9 w-9 place-items-center rounded-full bg-white/10 hover:bg-white/20" href="https://x.com" aria-label="X"><i class="fa-brands fa-x-twitter" aria-hidden="true"></i></a></div></div>
+            <div><h2 class="font-bold text-white">Explore</h2><ul class="mt-4 space-y-3 text-sm"><li><a class="hover:text-white" href="#about">About us</a></li><li><a class="hover:text-white" href="#features">Our features</a></li><li><a class="hover:text-white" href="#prices">Real-time prices</a></li><li><a class="hover:text-white" href="#how-it-works">How it works</a></li></ul></div>
+            <div><h2 class="font-bold text-white">Get in touch</h2><ul class="mt-4 space-y-3 text-sm"><li class="flex items-center gap-2"><i class="fa-solid fa-phone text-green-400" aria-hidden="true"></i><a href="tel:+911800123456" class="hover:text-white">1800 123 456 (Toll-free)</a></li><li class="flex items-center gap-2"><i class="fa-solid fa-envelope text-green-400" aria-hidden="true"></i><a href="mailto:hello@kisandirect.in" class="hover:text-white">hello@kisandirect.in</a></li><li class="flex items-start gap-2"><i class="fa-solid fa-location-dot mt-1 text-green-400" aria-hidden="true"></i><span>Made for farms across India</span></li></ul></div>
+            <div><h2 class="font-bold text-white">A language that feels like home</h2><label for="language" class="sr-only">Choose language</label><select id="language" class="mt-4 w-full rounded-lg border border-white/15 bg-white/10 px-3 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-green-400"><option class="text-ink">English</option><option class="text-ink">हिन्दी</option><option class="text-ink">मराठी</option><option class="text-ink">ಕನ್ನಡ</option><option class="text-ink">தமிழ்</option></select><p class="mt-3 text-xs leading-5 text-slate-500">Language options shown for demonstration.</p></div>
+        </div>
+        <div class="border-t border-white/10"><div class="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-5 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8"><p>© <span id="year"></span> Kisan Direct. Growing together.</p><p>Freshness with fairness, from farm to family.</p></div></div>
+    </footer>
+
+    <div id="portal-modal" class="modal-backdrop fixed inset-0 z-50 hidden items-center justify-center overflow-y-auto p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
+        <div class="relative my-auto w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl sm:p-8">
+            <button id="modal-close" class="absolute right-4 top-4 grid h-10 w-10 place-items-center rounded-full text-slate-500 hover:bg-slate-100 hover:text-ink" aria-label="Close dialog"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+            <div class="mb-5 flex items-center gap-3"><span id="modal-icon" class="grid h-12 w-12 place-items-center rounded-2xl bg-green-50 text-xl text-forest"><i class="fa-solid fa-basket-shopping" aria-hidden="true"></i></span><div><p id="modal-kicker" class="text-xs font-bold uppercase tracking-wider text-forest">Customer portal</p><h2 id="modal-title" class="brand-font text-2xl font-extrabold">Welcome back</h2></div></div>
+            <div class="grid grid-cols-2 rounded-xl bg-slate-100 p-1" role="tablist" aria-label="Account access"><button id="login-tab" role="tab" aria-selected="true" aria-controls="portal-form" class="rounded-lg bg-white py-2.5 text-sm font-bold text-ink shadow-sm">Log in</button><button id="register-tab" role="tab" aria-selected="false" aria-controls="portal-form" class="rounded-lg py-2.5 text-sm font-bold text-slate-500">Create account</button></div>
+            <form id="portal-form" class="mt-5 space-y-4">
+                <div id="name-field" class="hidden"><label for="full-name" class="mb-1.5 block text-sm font-semibold">Your name</label><input id="full-name" name="name" autocomplete="name" class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="Name" /></div>
+                <div><label for="email" class="mb-1.5 block text-sm font-semibold">Email address</label><input id="email" name="email" type="email" autocomplete="email" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="you@example.com" /></div>
+                <div><label for="password" class="mb-1.5 block text-sm font-semibold">Password</label><input id="password" name="password" type="password" autocomplete="current-password" minlength="6" required class="w-full rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-forest focus:ring-2 focus:ring-green-100" placeholder="At least 6 characters" /></div>
+                <button id="submit-label" type="submit" class="w-full rounded-xl bg-forest px-4 py-3 font-bold text-white transition hover:bg-green-800">Log in</button>
+                <p id="form-message" class="hidden rounded-lg bg-green-50 p-3 text-center text-sm text-forest" role="status"></p>
+                <p class="text-center text-xs leading-5 text-slate-500">By continuing, you agree to our terms and privacy policy.</p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        (() => {
+            const menuToggle = document.getElementById('menu-toggle');
+            const navLinks = document.getElementById('nav-links');
+            menuToggle.addEventListener('click', () => {
+                const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+                menuToggle.setAttribute('aria-expanded', String(!isOpen));
+                menuToggle.setAttribute('aria-label', isOpen ? 'Open navigation menu' : 'Close navigation menu');
+                menuToggle.innerHTML = isOpen ? '<i class="fa-solid fa-bars" aria-hidden="true"></i>' : '<i class="fa-solid fa-xmark" aria-hidden="true"></i>';
+                navLinks.classList.toggle('hidden', isOpen);
+            });
+            navLinks.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+                navLinks.classList.add('hidden'); menuToggle.setAttribute('aria-expanded', 'false');
+                menuToggle.setAttribute('aria-label', 'Open navigation menu');
+                menuToggle.innerHTML = '<i class="fa-solid fa-bars" aria-hidden="true"></i>';
+            }));
+
+            const search = document.getElementById('price-search');
+            const priceItems = [...document.querySelectorAll('[data-price-item]')];
+            const noPrices = document.getElementById('no-prices');
+            search.addEventListener('input', () => {
+                const query = search.value.trim().toLowerCase();
+                let visible = 0;
+                priceItems.forEach(item => {
+                    const match = item.dataset.search.includes(query);
+                    item.classList.toggle('hidden', !match);
+                    if (match) visible++;
+                });
+                noPrices.classList.toggle('hidden', visible !== 0);
+            });
+
+            const modal = document.getElementById('portal-modal');
+            const closeButton = document.getElementById('modal-close');
+            const loginTab = document.getElementById('login-tab');
+            const registerTab = document.getElementById('register-tab');
+            const nameField = document.getElementById('name-field');
+            const nameInput = document.getElementById('full-name');
+            const form = document.getElementById('portal-form');
+            const message = document.getElementById('form-message');
+            const submitButton = document.getElementById('submit-label');
+            const dashboard = document.getElementById('farmer-dashboard');
+            const customerDashboard = document.getElementById('customer-dashboard');
+            const listingForm = document.getElementById('listing-form');
+            const listingMessage = document.getElementById('listing-message');
+            const listingSubmit = document.getElementById('listing-submit');
+            const imageInput = document.getElementById('listing-image');
+            const imagePreview = document.getElementById('image-preview');
+            const marketingSections = [...document.querySelectorAll('#main > section:not(#farmer-dashboard):not(#customer-dashboard)')];
+            const footer = document.querySelector('footer');
+            let portal = 'customer';
+            let previousFocus = null;
+            let currentUser = null;
+            const deliveryEstimate = 'Estimated delivery: usually 2–4 days after ordering; confirm timing with the farmer.';
+
+            function setMode(mode) {
+                const registering = mode === 'register';
+                loginTab.setAttribute('aria-selected', String(!registering));
+                registerTab.setAttribute('aria-selected', String(registering));
+                loginTab.className = registering ? 'rounded-lg py-2.5 text-sm font-bold text-slate-500' : 'rounded-lg bg-white py-2.5 text-sm font-bold text-ink shadow-sm';
+                registerTab.className = registering ? 'rounded-lg bg-white py-2.5 text-sm font-bold text-ink shadow-sm' : 'rounded-lg py-2.5 text-sm font-bold text-slate-500';
+                nameField.classList.toggle('hidden', !registering);
+                nameInput.required = registering;
+                document.getElementById('password').autocomplete = registering ? 'new-password' : 'current-password';
+                document.getElementById('modal-title').textContent = registering ? 'Create your account' : 'Welcome back';
+                document.getElementById('submit-label').textContent = registering ? 'Create account' : 'Log in';
+                message.classList.add('hidden');
+            }
+            function openModal(type) {
+                portal = type;
+                previousFocus = document.activeElement;
+                const farmer = type === 'farmer';
+                document.getElementById('modal-kicker').textContent = farmer ? 'Farmer & seller portal' : 'Customer portal';
+                document.getElementById('modal-icon').innerHTML = farmer ? '<i class="fa-solid fa-tractor" aria-hidden="true"></i>' : '<i class="fa-solid fa-basket-shopping" aria-hidden="true"></i>';
+                document.getElementById('modal-icon').className = farmer ? 'grid h-12 w-12 place-items-center rounded-2xl bg-amber-50 text-xl text-amber-700' : 'grid h-12 w-12 place-items-center rounded-2xl bg-green-50 text-xl text-forest';
+                form.reset(); setMode('login');
+                modal.classList.remove('hidden'); modal.classList.add('flex'); modal.setAttribute('aria-hidden', 'false');
+                document.body.classList.add('overflow-hidden');
+                document.getElementById('email').focus();
+            }
+            function closeModal() {
+                modal.classList.add('hidden'); modal.classList.remove('flex'); modal.setAttribute('aria-hidden', 'true');
+                document.body.classList.remove('overflow-hidden');
+                if (previousFocus) previousFocus.focus();
+            }
+            async function requestJson(url, options = {}) {
+                if (window.location.protocol === 'file:') {
+                    throw new Error('Open the app at http://localhost:3000 after starting the Node server. Do not open front/index.html directly.');
+                }
+                const response = await fetch(url, options);
+                const responseText = await response.text();
+                let result;
+                try {
+                    result = JSON.parse(responseText);
+                } catch {
+                    throw new Error('The server returned an unexpected response. Make sure the Node app is running, then open http://localhost:3000.');
+                }
+                if (!response.ok) throw new Error(result.message || 'The request could not be completed.');
+                return result;
+            }
+            function setDashboardVisible(visible, role = 'farmer') {
+                dashboard.classList.toggle('hidden', !visible || role !== 'farmer');
+                customerDashboard.classList.toggle('hidden', !visible || role !== 'customer');
+                marketingSections.forEach(section => section.classList.toggle('hidden', visible));
+                footer.classList.toggle('hidden', visible);
+                document.body.classList.toggle('overflow-hidden', false);
+                if (visible) window.scrollTo(0, 0);
+            }
+            function setListingMessage(text, isError = false) {
+                listingMessage.textContent = text;
+                listingMessage.className = `rounded-lg p-3 text-center text-sm ${isError ? 'bg-red-50 text-red-700' : 'bg-green-50 text-forest'}`;
+            }
+            function makeListingCard(item, active) {
+                const card = document.createElement('article');
+                card.className = 'overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm';
+                const image = document.createElement('img');
+                image.src = item.imagePath;
+                image.alt = item.name;
+                image.className = 'h-44 w-full bg-slate-100 object-cover';
+                image.loading = 'lazy';
+                const content = document.createElement('div');
+                content.className = 'p-4';
+                const title = document.createElement('h3');
+                title.className = 'brand-font text-lg font-bold';
+                title.textContent = item.name;
+                const price = document.createElement('p');
+                price.className = 'mt-1 text-lg font-extrabold text-forest';
+                price.textContent = `₹${Number(item.price).toFixed(2)} / ${item.unit}`;
+                const quantity = document.createElement('p');
+                quantity.className = 'mt-1 text-sm text-slate-600';
+                quantity.textContent = `Available: ${Number(item.quantity)} ${item.unit}`;
+                content.append(title, price, quantity);
+                const location = document.createElement('p');
+                location.className = 'mt-1 text-sm text-slate-600';
+                location.textContent = item.farmerLocation ? `Farm location: ${item.farmerLocation}` : 'Farm location not provided';
+                content.append(location);
+                const shelfLife = document.createElement('p');
+                shelfLife.className = 'mt-1 text-sm text-slate-600';
+                const shelfLifeDays = Number(item.shelfLifeDays);
+                shelfLife.textContent = item.shelfLifeDays !== null && item.shelfLifeDays !== undefined &&
+                    Number.isInteger(shelfLifeDays) && shelfLifeDays > 0
+                    ? `Shelf life remaining: ${shelfLifeDays} days`
+                    : 'Shelf life not provided';
+                content.append(shelfLife);
+                if (item.description) {
+                    const details = document.createElement('p');
+                    details.className = 'mt-2 text-sm text-slate-500';
+                    details.textContent = item.description;
+                    content.append(details);
+                }
+                const date = document.createElement('p');
+                date.className = 'mt-3 text-xs text-slate-400';
+                date.textContent = `${active ? 'Listed' : 'Last listed'} ${new Date(item.createdAt).toLocaleDateString()}`;
+                content.append(date);
+                if (active) {
+                    const archive = document.createElement('button');
+                    archive.type = 'button';
+                    archive.className = 'mt-4 rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-600 hover:border-forest hover:text-forest';
+                    archive.textContent = 'Mark as no longer selling';
+                    archive.addEventListener('click', async () => {
+                        archive.disabled = true;
+                        try {
+                            await requestJson(`/api/farmer/listings/${item.id}/archive`, { method: 'POST' });
+                            await loadListings();
+                        } catch (error) {
+                            setListingMessage(error.message, true);
+                            archive.disabled = false;
+                        }
+                    });
+                    content.append(archive);
+                }
+                card.append(image, content);
+                return card;
+            }
+            async function loadListings() {
+                const result = await requestJson('/api/farmer/listings');
+                const activeItems = result.listings.filter(item => item.isActive);
+                const previousItems = result.listings.filter(item => !item.isActive);
+                const activeContainer = document.getElementById('active-listings');
+                const previousContainer = document.getElementById('previous-listings');
+                activeContainer.replaceChildren(...activeItems.map(item => makeListingCard(item, true)));
+                previousContainer.replaceChildren(...previousItems.map(item => makeListingCard(item, false)));
+                document.getElementById('active-count').textContent = `${activeItems.length} ${activeItems.length === 1 ? 'item' : 'items'}`;
+                document.getElementById('previous-count').textContent = `${previousItems.length} ${previousItems.length === 1 ? 'item' : 'items'}`;
+                document.getElementById('active-empty').classList.toggle('hidden', activeItems.length > 0);
+                document.getElementById('previous-empty').classList.toggle('hidden', previousItems.length > 0);
+            }
+            function setCustomerMessage(text, isError = false) {
+                const customerMessage = document.getElementById('customer-message');
+                customerMessage.textContent = text;
+                customerMessage.className = `mt-4 rounded-lg p-3 text-center text-sm ${isError ? 'bg-red-50 text-red-700' : 'bg-green-50 text-forest'}`;
+            }
+            function makeCustomerProductCard(item) {
+                const card = document.createElement('article');
+                card.className = 'group overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-xl';
+                const imageFrame = document.createElement('div');
+                imageFrame.className = 'relative overflow-hidden bg-green-50';
+                const image = document.createElement('img');
+                image.src = item.imagePath;
+                image.alt = item.name;
+                image.className = 'h-52 w-full object-cover transition duration-500 group-hover:scale-105';
+                image.loading = 'lazy';
+                const freshnessBadge = document.createElement('span');
+                freshnessBadge.className = 'absolute left-3 top-3 rounded-full border border-white/60 bg-white/95 px-3 py-1.5 text-xs font-bold text-forest shadow-sm backdrop-blur';
+                freshnessBadge.innerHTML = '<i class="fa-solid fa-leaf mr-1.5" aria-hidden="true"></i>Farm fresh';
+                imageFrame.append(image, freshnessBadge);
+                const content = document.createElement('div');
+                content.className = 'p-5 sm:p-6';
+                const name = document.createElement('h3');
+                name.className = 'brand-font text-xl font-extrabold tracking-tight text-ink';
+                name.textContent = item.name;
+                const farmer = document.createElement('p');
+                farmer.className = 'mt-1 text-sm text-slate-500';
+                farmer.textContent = `From ${item.farmerName}`;
+                const farmerLocation = document.createElement('p');
+                farmerLocation.className = 'mt-1 text-sm text-slate-600';
+                farmerLocation.textContent = item.farmerLocation
+                    ? `Farm location: ${item.farmerLocation}`
+                    : 'Farm location not provided';
+                const price = document.createElement('p');
+                price.className = 'mt-3 text-lg font-extrabold text-forest';
+                price.textContent = `₹${Number(item.price).toFixed(2)} / ${item.unit}`;
+                const stock = document.createElement('p');
+                stock.className = 'mt-1 text-sm text-slate-600';
+                stock.textContent = `Available: ${Number(item.quantity)} ${item.unit}`;
+                content.append(name, farmer, farmerLocation, price, stock);
+                const delivery = document.createElement('p');
+                delivery.className = 'mt-3 flex items-start gap-2 rounded-xl bg-green-50 px-3 py-2.5 text-xs font-semibold leading-5 text-green-900';
+                delivery.innerHTML = '<i class="fa-solid fa-truck-fast mt-0.5 text-forest" aria-hidden="true"></i>';
+                const deliveryText = document.createElement('span');
+                deliveryText.textContent = deliveryEstimate;
+                delivery.append(deliveryText);
+                content.append(delivery);
+                const shelfLife = document.createElement('p');
+                const shelfLifeDays = Number(item.shelfLifeDays);
+                if (Number.isInteger(shelfLifeDays) && shelfLifeDays > 0) {
+                    shelfLife.className = shelfLifeDays < 5
+                        ? 'mt-2 rounded-lg bg-amber-50 p-2 text-sm font-semibold text-amber-800'
+                        : 'mt-2 text-sm text-slate-600';
+                    shelfLife.textContent = shelfLifeDays < 5
+                        ? `Shelf life: ${shelfLifeDays} days. Delivery must arrive within 2 days; confirm timing with the farmer.`
+                        : `Shelf life remaining: ${shelfLifeDays} days`;
+                } else {
+                    shelfLife.className = 'mt-2 text-sm text-slate-500';
+                    shelfLife.textContent = 'Shelf life not provided by farmer';
+                }
+                content.append(shelfLife);
+                if (item.description) {
+                    const description = document.createElement('p');
+                    description.className = 'mt-2 text-sm text-slate-500';
+                    description.textContent = item.description;
+                    content.append(description);
+                }
+                const purchaseForm = document.createElement('form');
+                purchaseForm.className = 'mt-4 flex items-end gap-2';
+                const quantityLabel = document.createElement('label');
+                quantityLabel.className = 'flex-1 text-xs font-semibold text-slate-600';
+                quantityLabel.textContent = `Quantity (${item.unit})`;
+                const quantityInput = document.createElement('input');
+                quantityInput.type = 'number';
+                quantityInput.min = '0.01';
+                quantityInput.max = Number(item.quantity);
+                quantityInput.step = '0.01';
+                quantityInput.value = '1';
+                quantityInput.required = true;
+                quantityInput.className = 'mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm';
+                quantityLabel.append(quantityInput);
+                const buyButton = document.createElement('button');
+                buyButton.type = 'submit';
+                buyButton.className = 'rounded-xl bg-forest px-5 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-green-800 disabled:opacity-60';
+                buyButton.innerHTML = 'Add to basket <i class="fa-solid fa-arrow-right ml-2 text-xs" aria-hidden="true"></i>';
+                purchaseForm.append(quantityLabel, buyButton);
+                purchaseForm.addEventListener('submit', async event => {
+                    event.preventDefault();
+                    buyButton.disabled = true;
+                    buyButton.textContent = 'Placing order…';
+                    try {
+                        const result = await requestJson('/api/customer/purchases', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ listingId: item.id, quantity: quantityInput.value })
+                        });
+                        const savings = result.order.discountPercent
+                            ? ` You saved ${result.order.discountPercent}% on this bulk purchase.`
+                            : ' Buy 10 or more units for a bulk discount.';
+                        setCustomerMessage(`${result.message} Total: ₹${Number(result.order.total).toFixed(2)}. ${deliveryEstimate}${savings}`);
+                        await loadCustomerDashboard();
+                    } catch (error) {
+                        setCustomerMessage(error.message, true);
+                        buyButton.disabled = false;
+                        buyButton.innerHTML = 'Add to basket <i class="fa-solid fa-arrow-right ml-2 text-xs" aria-hidden="true"></i>';
+                    }
+                });
+                content.append(purchaseForm);
+                card.append(imageFrame, content);
+                return card;
+            }
+            async function loadCustomerDashboard() {
+                const [listingResult, orderResult] = await Promise.all([
+                    requestJson('/api/customer/listings'),
+                    requestJson('/api/customer/orders')
+                ]);
+                const productContainer = document.getElementById('customer-products');
+                productContainer.replaceChildren(...listingResult.listings.map(makeCustomerProductCard));
+                document.getElementById('customer-products-empty').classList.toggle('hidden', listingResult.listings.length > 0);
+                document.getElementById('customer-product-count').textContent = `${listingResult.listings.length} ${listingResult.listings.length === 1 ? 'fresh pick' : 'fresh picks'}`;
+                const orderContainer = document.getElementById('customer-orders');
+                const orderCards = orderResult.orders.map(order => {
+                    const card = document.createElement('article');
+                    card.className = 'rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-green-200 hover:shadow-md sm:flex sm:items-center sm:justify-between';
+                    const details = document.createElement('div');
+                    const title = document.createElement('h3');
+                    title.className = 'font-bold text-ink';
+                    title.textContent = `${order.productName} from ${order.farmerName}`;
+                    const summary = document.createElement('p');
+                    summary.className = 'mt-1 text-sm text-slate-600';
+                    summary.textContent = `${Number(order.quantity)} ${order.unit} × ₹${Number(order.unitPrice).toFixed(2)}${Number(order.discountPercent) ? ` · ${Number(order.discountPercent)}% bulk discount` : ''}`;
+                    const deliveryLocation = document.createElement('p');
+                    deliveryLocation.className = 'mt-1 text-sm text-slate-600';
+                    deliveryLocation.textContent = order.deliveryLocation
+                        ? `Delivery location: ${order.deliveryLocation}`
+                        : 'Delivery location not recorded';
+                    const delivery = document.createElement('p');
+                    delivery.className = 'mt-2 inline-flex items-start gap-2 rounded-lg bg-green-50 px-3 py-2 text-xs font-semibold leading-5 text-green-900';
+                    delivery.innerHTML = '<i class="fa-solid fa-truck-fast mt-0.5 text-forest" aria-hidden="true"></i>';
+                    const deliveryText = document.createElement('span');
+                    deliveryText.textContent = deliveryEstimate;
+                    delivery.append(deliveryText);
+                    const date = document.createElement('p');
+                    date.className = 'mt-1 text-xs text-slate-400';
+                    date.textContent = new Date(order.createdAt).toLocaleString();
+                    details.append(title, summary, deliveryLocation, delivery, date);
+                    const total = document.createElement('p');
+                    total.className = 'mt-4 shrink-0 text-lg font-extrabold text-forest sm:mt-0 sm:pl-6';
+                    total.textContent = `₹${Number(order.lineTotal).toFixed(2)}`;
+                    card.append(details, total);
+                    return card;
+                });
+                orderContainer.replaceChildren(...orderCards);
+                document.getElementById('customer-order-count').textContent = `${orderCards.length} ${orderCards.length === 1 ? 'order' : 'orders'}`;
+                document.getElementById('customer-orders-empty').classList.toggle('hidden', orderCards.length > 0);
+            }
+            async function showFarmerDashboard(user) {
+                currentUser = user;
+                document.getElementById('farmer-location').value = user.location || '';
+                document.getElementById('dashboard-welcome').textContent = `Welcome, ${user.name}. Manage your current and previous produce listings here.`;
+                closeModal();
+                setDashboardVisible(true, 'farmer');
+                try {
+                    await loadListings();
+                } catch (error) {
+                    setListingMessage(error.message, true);
+                }
+            }
+            async function showCustomerDashboard(user) {
+                currentUser = user;
+                document.getElementById('customer-location').value = user.location || '';
+                document.getElementById('customer-dashboard-welcome').textContent = `Welcome, ${user.name}. Browse current farmer listings and place an order.`;
+                closeModal();
+                setDashboardVisible(true, 'customer');
+                try {
+                    await loadCustomerDashboard();
+                    if (!user.location) {
+                        setCustomerMessage('Save your delivery location above before placing an order.');
+                    }
+                } catch (error) {
+                    setCustomerMessage(error.message, true);
+                }
+            }
+            document.querySelectorAll('[data-open-modal]').forEach(button => button.addEventListener('click', () => {
+                if (button.dataset.openModal === 'farmer' && currentUser?.role === 'farmer') {
+                    setDashboardVisible(true, 'farmer');
+                    loadListings().catch(error => setListingMessage(error.message, true));
+                    return;
+                }
+                if (button.dataset.openModal === 'customer' && currentUser?.role === 'customer') {
+                    setDashboardVisible(true, 'customer');
+                    loadCustomerDashboard().catch(error => setCustomerMessage(error.message, true));
+                    return;
+                }
+                openModal(button.dataset.openModal);
+            }));
+            closeButton.addEventListener('click', closeModal);
+            modal.addEventListener('click', event => { if (event.target === modal) closeModal(); });
+            document.addEventListener('keydown', event => { if (event.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+            loginTab.addEventListener('click', () => setMode('login'));
+            registerTab.addEventListener('click', () => setMode('register'));
+            form.addEventListener('submit', async event => {
+                event.preventDefault();
+                const registering = registerTab.getAttribute('aria-selected') === 'true';
+                const formData = new FormData(form);
+                const payload = {
+                    email: formData.get('email'),
+                    password: formData.get('password'),
+                    role: portal
+                };
+                if (registering) payload.name = formData.get('name');
+
+                message.classList.add('hidden');
+                submitButton.disabled = true;
+                submitButton.textContent = 'Please wait…';
+                try {
+                    const result = await requestJson(`/api/${registering ? 'register' : 'login'}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!registering) {
+                        if (portal === 'farmer') await showFarmerDashboard(result.user);
+                        else await showCustomerDashboard(result.user);
+                        return;
+                    }
+                    message.textContent = result.message;
+                    message.className = 'rounded-lg bg-green-50 p-3 text-center text-sm text-forest';
+                } catch (error) {
+                    message.textContent = error.message || 'Unable to reach the server. Please try again.';
+                    message.className = 'rounded-lg bg-red-50 p-3 text-center text-sm text-red-700';
+                } finally {
+                    message.classList.remove('hidden');
+                    submitButton.disabled = false;
+                    submitButton.textContent = registering ? 'Create account' : 'Log in';
+                }
+            });
+            imageInput.addEventListener('change', () => {
+                const [file] = imageInput.files;
+                if (!file) {
+                    imagePreview.removeAttribute('src');
+                    imagePreview.classList.add('hidden');
+                    return;
+                }
+                imagePreview.src = URL.createObjectURL(file);
+                imagePreview.classList.remove('hidden');
+            });
+            listingForm.addEventListener('submit', async event => {
+                event.preventDefault();
+                listingSubmit.disabled = true;
+                listingSubmit.textContent = 'Saving listing…';
+                listingMessage.classList.add('hidden');
+                try {
+                    await requestJson('/api/farmer/listings', {
+                        method: 'POST',
+                        body: new FormData(listingForm)
+                    });
+                    listingForm.reset();
+                    imagePreview.removeAttribute('src');
+                    imagePreview.classList.add('hidden');
+                    setListingMessage('Your item is now listed for sale.');
+                    await loadListings();
+                } catch (error) {
+                    setListingMessage(error.message, true);
+                } finally {
+                    listingSubmit.disabled = false;
+                    listingSubmit.textContent = 'Add listing';
+                }
+            });
+            async function saveLocation(messageElement, button, input, userRole) {
+                const location = input.value.trim();
+                if (!location) {
+                    messageElement.textContent = 'Enter a location before saving.';
+                    messageElement.className = 'mt-2 rounded-lg bg-red-50 p-3 text-sm text-red-700';
+                    return;
+                }
+                button.disabled = true;
+                try {
+                    const result = await requestJson('/api/location', {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ location })
+                    });
+                    currentUser.location = result.location;
+                    messageElement.textContent = result.message;
+                    messageElement.className = 'mt-2 rounded-lg bg-green-50 p-3 text-sm text-forest';
+                    if (userRole === 'customer') await loadCustomerDashboard();
+                    else await loadListings();
+                } catch (error) {
+                    messageElement.textContent = error.message;
+                    messageElement.className = 'mt-2 rounded-lg bg-red-50 p-3 text-sm text-red-700';
+                } finally {
+                    messageElement.classList.remove('hidden');
+                    button.disabled = false;
+                }
+            }
+            document.getElementById('farmer-location-form').addEventListener('submit', event => {
+                event.preventDefault();
+                saveLocation(
+                    document.getElementById('farmer-location-message'),
+                    document.getElementById('farmer-location-save'),
+                    document.getElementById('farmer-location'),
+                    'farmer'
+                );
+            });
+            document.getElementById('customer-location-form').addEventListener('submit', event => {
+                event.preventDefault();
+                saveLocation(
+                    document.getElementById('customer-location-message'),
+                    document.getElementById('customer-location-save'),
+                    document.getElementById('customer-location'),
+                    'customer'
+                );
+            });
+            document.getElementById('farmer-logout').addEventListener('click', async () => {
+                try {
+                    await requestJson('/api/logout', { method: 'POST' });
+                    currentUser = null;
+                    setDashboardVisible(false, 'farmer');
+                } catch (error) {
+                    setListingMessage(error.message, true);
+                }
+            });
+            document.getElementById('customer-refresh').addEventListener('click', () => {
+                loadCustomerDashboard().catch(error => setCustomerMessage(error.message, true));
+            });
+            document.getElementById('customer-logout').addEventListener('click', async () => {
+                try {
+                    await requestJson('/api/logout', { method: 'POST' });
+                    currentUser = null;
+                    setDashboardVisible(false, 'customer');
+                } catch (error) {
+                    setCustomerMessage(error.message, true);
+                }
+            });
+            if (window.location.protocol !== 'file:') {
+                requestJson('/api/me').then(result => {
+                    if (result.user.role === 'farmer') showFarmerDashboard(result.user);
+                    else showCustomerDashboard(result.user);
+                }).catch(error => {
+                    if (!error.message.includes('Please log in')) {
+                        console.error('Unable to restore farmer session:', error);
+                    }
+                });
+            }
+            document.getElementById('year').textContent = new Date().getFullYear();
+        })();
+    </script>
+</body>
+</html>
